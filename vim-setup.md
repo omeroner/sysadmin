@@ -4,9 +4,9 @@ Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 
 Color Shema Kullanımı
 
-:colorscheme delek
+`:colorscheme delek`
 
-:color delek
+`:color delek`
 
 Color Shema Dizini
 
