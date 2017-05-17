@@ -1,13 +1,13 @@
-Vim Templateleri
+### Vim Templateleri
 
 Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 
-Color Shema Kullanımı
+### Color Shema Kullanımı
 
 `:colorscheme delek`
 
 `:color delek`
 
-Color Shema Dizini
+### Color Shema Dizini
 
-'/usr/share/vim/vim74/colors/'
+`/usr/share/vim/vim74/colors/`
