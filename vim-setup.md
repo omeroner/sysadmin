@@ -17,4 +17,4 @@ Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 `vim ~/.vimrc`
 
 >colo desert
-syntax on
+>syntax on
