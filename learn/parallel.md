@@ -13,6 +13,7 @@ bknz. [parallel tutorial](https://www.gnu.org/software/parallel/parallel_tutoria
 
     $parallel ::: prog1 prog2
 
+
     $ parallel echo ::: alpha beta gamma
     alpha
     beta
