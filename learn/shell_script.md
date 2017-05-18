@@ -1,4 +1,4 @@
-### Special Shell Variables.
+### Special Shell Variables.[bknz.](https://bash.cyberciti.biz/guide/Variables)
 ## $IFS
 
 IFS varsayılan değeri bir boşluk, bir sekme ve bir satırsonu karakteridir.
