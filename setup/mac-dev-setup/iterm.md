@@ -12,3 +12,4 @@ Links used
 
 – .gitconfig file   : [.gitconfig](https://github.com/omeroner/sysadmin/tree/master/configs/mac-dev-setup/.gitconfig)
 
+***
