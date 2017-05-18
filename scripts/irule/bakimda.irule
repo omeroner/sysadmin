@@ -1,0 +1,49 @@
+when HTTP_REQUEST {
+
+  if { [active_members  istanbul.net.test.pool] < 1 } {
+
+  set maint_prefix "/bakimda"
+  set maint_prefix2 "/images/slider.png"
+  set maint_prefix3 "/images/logo.png"
+  set maint_prefix4 "/images/wrapper.png"
+  set maint_prefix5 "/images/citys.png"
+  set maint_prefix6 "/images/background.png"
+
+if { [HTTP::uri] equals "$maint_prefix" } {
+    HTTP::respond 503 content [ifile get dating_bakimda.html] "Content-Type" "text/html" "Connection" "Close"
+    return
+  }
+
+if { [HTTP::uri] equals "$maint_prefix2" } {
+    HTTP::respond 200 content [ifile get dating_slider.png] "Content-Type" "image/png" "Connection" "Close"
+    return
+  }
+
+if { [HTTP::uri] equals "$maint_prefix3" } {
+    HTTP::respond 200 content [ifile get dating_logo.png] "Content-Type" "image/png" "Connection" "Close"
+    return
+  }
+
+if { [HTTP::uri] equals "$maint_prefix4" } {
+    HTTP::respond 200 content [ifile get dating_wrapper.png] "Content-Type" "image/png" "Connection" "Close"
+    return
+  }
+
+if { [HTTP::uri] equals "$maint_prefix5" } {
+    HTTP::respond 200 content [ifile get dating_citys.png] "Content-Type" "image/png" "Connection" "Close"
+    return
+  }
+
+if { [HTTP::uri] equals "$maint_prefix6" } {
+    HTTP::respond 200 content [ifile get dating_background.png] "Content-Type" "image/png" "Connection" "Close"
+    return
+  }
+
+HTTP::redirect $maint_prefix
+   } else {
+      set my_uri [string tolower [HTTP::uri]]
+      if { $my_uri starts_with "/bakimda" } {
+         HTTP::redirect http://[HTTP::host]
+     }
+   }
+}
