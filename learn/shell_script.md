@@ -49,8 +49,10 @@ Adding ftp access for syslnx.net using ftpnixuser ftp account...
 
 ## $@,$*
 $@ ve $*, özel kabuk değişkenleridir.
+```
 $@ Komut dosyasına geçirilen tüm argümanlar listesini tutar.
 $* Komut dosyasına geçirilen tüm argümanlar listesini tutar.
+```
 
 ```sh
 #!/bin/bash
