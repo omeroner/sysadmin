@@ -1,4 +1,4 @@
-### iTerm 2: http://iterm2.com
+## iTerm 2: http://iterm2.com
 
 Links used
 
