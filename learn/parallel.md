@@ -5,10 +5,10 @@ GNU Parallel, işleri Bash ortamında paralel olarak çalıştırmak için kulla
 bknz. [parallel tutorial](https://www.gnu.org/software/parallel/parallel_tutorial.html)
 
 ### Install
-
+```sh
    $ sudo yum install parallel
    $ (wget -O - pi.dk/3 || curl pi.dk/3/ ||    fetch -o - http://pi.dk/3) | bash
-
+```
 ### Examples
 
     $parallel ::: prog1 prog2
