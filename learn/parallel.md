@@ -10,14 +10,16 @@ bknz. [parallel tutorial](https://www.gnu.org/software/parallel/parallel_tutoria
    $ (wget -O - pi.dk/3 || curl pi.dk/3/ ||    fetch -o - http://pi.dk/3) | bash
 ```
 ### Examples
-
+```sh
     $parallel ::: prog1 prog2
+```
 
-
+```sh
     $ parallel echo ::: alpha beta gamma
     alpha
     beta
     gamma
+```
 
 >$ parallel echo ::: 0 1 ::: 0 1
 >0 0
