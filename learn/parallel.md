@@ -19,11 +19,11 @@ bknz. [parallel tutorial](https://www.gnu.org/software/parallel/parallel_tutoria
     beta
     gamma
 
-$ parallel echo ::: 0 1 ::: 0 1
-0 0
-0 1
-1 0
-1 1
+>$ parallel echo ::: 0 1 ::: 0 1
+>0 0
+>0 1
+>1 0
+>1 1
 
 $ parallel echo {} ::: /tmp
 /tmp
