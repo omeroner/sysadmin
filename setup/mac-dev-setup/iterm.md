@@ -3,8 +3,8 @@
 Links used
 =========================
 
-– Solarized theme: http://ethanschoonover.com/solarized
-– .bash_profile file: https://raw.githubusercontent.com/nic...
-– .bash_prompt file: https://raw.githubusercontent.com/nic...
-– .aliases file: https://raw.githubusercontent.com/nic...
-– .gitconfig file: https://raw.githubusercontent.com/nic...
+– Solarized theme   : http://ethanschoonover.com/solarized
+– .bash_profile file: https://github.com/omeroner/sysadmin/tree/master/configs/mac-dev-setup/.bash_profile
+– .bash_prompt file : https://github.com/omeroner/sysadmin/tree/master/configs/mac-dev-setup/.bash_prompt
+– .aliases file     : https://github.com/omeroner/sysadmin/tree/master/configs/mac-dev-setup/.aliases
+– .gitconfig file   : https://github.com/omeroner/sysadmin/tree/master/configs/mac-dev-setup/.gitconfig
