@@ -14,8 +14,13 @@ Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 
 ### Color Shema Installation
 
-Copy ".vim" file to ~/.vim/colors folder
-Use the command ":colorscheme cobalt" for temporarily changing.
+".vim" dosyasını aşağıdaki path'e kopyala
+
+`~/.vim/colors`
+
+Geçici olarak değiştirmek için aşağıdaki komutu kullan
+
+`":colorscheme cobalt"`
 
 
 ### Specifik Colorscheme Set Etme 
