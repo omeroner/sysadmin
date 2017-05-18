@@ -16,5 +16,5 @@ Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 ### Specifik Colorscheme Set Etme 
 `vim ~/.vimrc`
 
->colo desert
->syntax on
+    colo desert
+    syntax on
