@@ -1,4 +1,8 @@
 #!/bin/bash
+# asagidaki script'in yaptigi isi yapar.
+# $ cat list.txt | parallel -j 4 wget -q {}
+# or
+# $ parallel -j 4 wget -q {} < list.txt
 
 <<comment
 cat list.txt
