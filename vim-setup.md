@@ -12,6 +12,11 @@ Bknz. [http://vimcolors.com/](http://vimcolors.com/)
 
 `/usr/share/vim/vim74/colors/`
 
+### Color Shema Installation
+
+Copy ".vim" file to ~/.vim/colors folder
+Use the command ":colorscheme cobalt" for temporarily changing.
+
 
 ### Specifik Colorscheme Set Etme 
 `vim ~/.vimrc`
