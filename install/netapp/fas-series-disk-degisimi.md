@@ -1,4 +1,4 @@
--Console veya SSH üzerinden sisteme bağlanılır.
+-Console veya SSH üzerinden sisteme bağlanılır.\n
 -CLI ekranında aşağıda ki komutlar çalıştırılıp gerekli kontroller yapılır.
 
 ## 7 Mode İçin CLI Komutları
