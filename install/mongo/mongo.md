@@ -7,10 +7,10 @@
 
 -http://www.if-not-true-then-false.com/2010/install-mongodb-on-fedora-centos-red-hat-rhel/
 
-
--vi /etc/yum.repos.d/10gen-mongodb.repo (içine alltaki satıra koy)
-
 ```sh
+vi /etc/yum.repos.d/10gen-mongodb.repo (içine alltaki satıra koy)
+
+
 [10gen]
 name=10gen Repository
 baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
@@ -55,25 +55,27 @@ mongo 10.0.10.45:27017/test
 ```
 
 
--------------- server için driver----------------------------
+###  server için driver
 
 https://github.com/mongodb/mongo-php-driver
 https://download.github.com/mongodb-mongo-php-driver-1.1.4-55-g3a20db4.tar.gz--download et
 
+```sh
 -tar -xzvf mongodb-mongo-php-driver-1.1.4-55-g3a20db4.tar.gz
 cd mongodb-mongo-php-driver-3a20db4/
 phpize
 ./configure --with-php-config=/usr/local/php/bin/php-config
 make
 make install
-
+```
+```sh
 extension=mongo.so to your php.ini file.
+```
 
-
-
+```sh
 show dbs
-use canakokey
-db.addUser("admincanak","x0y!tra;18")
+use canak
+db.addUser("admin","y!3er")
 db.system.users.find()
 db.printCollectionStats()
 db.serverStatus()
@@ -87,42 +89,45 @@ db.getName()
 db.getProfilingLevel()
 db.printShardingStatus()
 db.onlineusers.count()
+```
 
+### backup
 
-<--backup
-
+```sh
 mkdir dump
 mongodump
 dump dizin altına bütün databaseleri atar
--->
+```
 
 
 
 
-
-
-db.auth ("canakokeyuser","12345678");
-
-mongodump -dcanakokey --username "canakokeyuser" --password "12345678"
-db.auth ("canakokeyuser","12345678");
-> use canakokey
-switched to db canakokey
+### example
+```sh
+db.auth ("canak","12345678");
+mongodump -dcanak --username "canakuser" --password "12345678"
+db.auth ("canak","12345678");
+> use canak
+switched to db canak
 > db.auth ("canakokeyuser","12345678");
 1
 > show collections;
 onlineusers
 system.indexes
 system.users
+```
 
-
+```sh
 db.onlineusers.remove({}); -->truncate table
 db.onlineusers.find() -->  --> bütün row'ları select eder
 db.onlineusers.count() --> count alır
-
+```
+```sh
 db.commandHelp(find) 
 db.serverStatus("connections");
 db.listCommands()
 dbquery.shellbatchsize(50) 
+```
 
 http://www.mongodb.org/display/DOCS/File+Based+Configuration
 
