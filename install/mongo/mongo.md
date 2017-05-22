@@ -10,27 +10,24 @@
 
 -vi /etc/yum.repos.d/10gen-mongodb.repo (içine alltaki satıra koy)
 
+```sh
 [10gen]
 name=10gen Repository
 baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64
 gpgcheck=0
+```
 
+### install
+```sh
+yum install mongo-10gen mongo-10gen-server (install et)
+vi /etc/mongod.conf (config dosyası)
+chown -R mongod:mongod /var/lib/mongo/
+service mongod start
+/etc/init.d/mongod start
+```
 
---------------*--------------
-
--yum install mongo-10gen mongo-10gen-server (install et)
-
--vi /etc/mongod.conf (config dosyası)
-
--chown -R mongod:mongod /var/lib/mongo/
-
-
--service mongod start
--/etc/init.d/mongod start
-
-
--mongo
-
+### mongo use
+```sh
 > use test
 switched to db test
 > db.foo.find()
@@ -41,20 +38,21 @@ switched to db test
 > db.foo.find()
 { "_id" : ObjectId("4b8ed53c4f450867bb35a1a9"), "a" : 5 }
 exit
+```
 
-
--vi /etc/sysconfig/iptables
+```sh
+vi /etc/sysconfig/iptables
 - -A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 27017 -j ACCEPT
+service iptables restart
+```
 
--service iptables restart
-
-
-------test remote connection------------
+### test remote connection
 
 mongo server:port/database
 ## Example ##
+```sh
 mongo 10.0.10.45:27017/test
-
+```
 
 
 -------------- server için driver----------------------------
