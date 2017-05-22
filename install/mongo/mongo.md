@@ -1,11 +1,11 @@
 
 
 
--http://www.mongodb.org/display/DOCS/Monitoring+and+Diagnostics
+- http://www.mongodb.org/display/DOCS/Monitoring+and+Diagnostics
 
--http://craiccomputing.blogspot.com/2011/02/authentication-in-mongo-and-mongoid.html
+- http://craiccomputing.blogspot.com/2011/02/authentication-in-mongo-and-mongoid.html
 
--http://www.if-not-true-then-false.com/2010/install-mongodb-on-fedora-centos-red-hat-rhel/
+- http://www.if-not-true-then-false.com/2010/install-mongodb-on-fedora-centos-red-hat-rhel/
 
 ```sh
 vi /etc/yum.repos.d/10gen-mongodb.repo (içine alltaki satıra koy)
@@ -48,17 +48,16 @@ service iptables restart
 
 ### test remote connection
 
-mongo server:port/database
-## Example ##
 ```sh
+mongo server:port/database
 mongo 10.0.10.45:27017/test
 ```
 
 
 ###  server için driver
 
-https://github.com/mongodb/mongo-php-driver
-https://download.github.com/mongodb-mongo-php-driver-1.1.4-55-g3a20db4.tar.gz--download et
+- https://github.com/mongodb/mongo-php-driver
+- https://download.github.com/mongodb-mongo-php-driver-1.1.4-55-g3a20db4.tar.gz--download et
 
 ```sh
 -tar -xzvf mongodb-mongo-php-driver-1.1.4-55-g3a20db4.tar.gz
@@ -129,6 +128,6 @@ db.listCommands()
 dbquery.shellbatchsize(50) 
 ```
 
-http://www.mongodb.org/display/DOCS/File+Based+Configuration
+- http://www.mongodb.org/display/DOCS/File+Based+Configuration
 
 
