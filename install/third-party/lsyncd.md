@@ -54,37 +54,12 @@ sync {
 }
 
 }
- ``
+ ```
+ 
+## Service Start
 
-Start the lsyncd daemon
- Fedora series)
-   Sudo cp lsyncd.conf / etc
-   Sudo systemctl enable lsyncd.service
-   Sudo systemctl start lsyncd.service
-
- Ubuntu type)
-   Sudo mkdir / etc / lsyncd
-   Sudo cp lsyncd.conf /etc/lsyncd/lsyncd.conf.lua
-   Sudo edit / etc / default / rsync
-        RSYNC_ENABLE = true
-
-   Sudo edit /etc/init/lsyncd.conf
-    ------------------------------------------------------------------------------------ ----
-    Description "lsyncd file syncronizer"
-  
-    Start on (starting network-interface
-        Or starting network-manager
-        Or starting networking)
-  
-    Stop on runlevel [! 2345]
-    Expect fork
-  
-    Respawn
-    Respawn limit 10 5
-  
-    Exec / usr / bin / lsyncd /etc/lsyncd/lsyncd.conf.lua
-    ------------------------------------------------------------------------------------ ---------
-     Confirm daemon settings
-     Sudo initctl check-config lsyncd
-
-   Sudo initctl start lsyncd
+ ```sh
+   sudo cp lsyncd.conf /etc
+   sudo systemctl enable lsyncd.service
+   sudo systemctl start lsyncd.service
+ ```
