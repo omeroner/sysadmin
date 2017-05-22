@@ -1,0 +1,23 @@
+İŞLEM	BASILACAK TUŞ
+Gelen Kutusu'na geçiş yapar.	CTRL+ÜSTKRKT+G
+Giden Kutusu'na geçiş yapar.	CTRL+ÜSTKRKT+O
+İleti göndermek için kullanılacak hesabı seçer.	CTRL+SEKME (Kime satırına odaklanmış durumdayken) ve ardından SEKME Hesaplar düğmesine
+Gönder	ALT+S
+İletiyi yanıtlar.	CTRL+R
+Tüm iletileri yanıtlar.	CTRL+ÜSTKRKT+R
+İletiyi önemsiz posta olmadığını gösterecek şekilde işaretler	CTRL+ ALT+J
+Engellenmiş dış içeriği (bir iletide) görüntüler.	CTRL+ÜSTKRKT+I
+Klasöre postalar.	CTRL+ ÜSTKRKT+S
+Yeni posta denetimi yapar.	CTRL+M veya F9
+Bir sonraki iletiye gider.	YUKARI OK
+Bir önceki iletiye gider.	AŞAĞI OK
+Yukarıdaki satıra gider (ileti veya grup başlığı)	ALT+ YUKARI OK
+Aşağıdaki satıra gider (ileti veya grup başlığı).	ALT+ AŞAĞI OK
+Yeni bir ileti yazar	CTRL+N
+Alınan bir iletiyi açar.	CTRL+O
+Adres Defteri'ni görüntüler.	CTRL+ÜSTKRKT+B
+HTML veya RTF iletisini düz metne dönüştürür.	CTRL+ÜSTKRKT+O
+İletiye Hızlı Bayrak ekler.	INSERT
+İzleme Bayrağı iletişim kutusunu görüntüler.	CTRL+ÜSTKRKT+X
+Okundu olarak işaretler.	CTRL+Q
+Resimleri yüklemek, otomatik yükleme ayarlarını değiştirmek veya bir göndereni Güvenli Gönderenler Listesi'ne eklemek için menüyü gösterir.	

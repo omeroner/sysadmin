@@ -1,0 +1,39 @@
+﻿SVN KULLANIMI İÇİN GEREKLİ KOMUTLARDAN BAZILARI
+
+yum install subversion.x86_64 #svn kurulumu.
+
+svn log -r HEAD #svn son versiyon öğrenme.
+
+svn log  -r {2012-05-16} dosya.adı #Tarihte dosyanın değişip değişmediği.
+
+svn log -r {başlangıç tarihi}:{bitiş tarihi} #tarih arasındaki logu verir.
+
+svn log -r {başlangıç tarihi}:{bitiş tarihi} dosya.adı #dosyay ait tarih arasındaki logu verir.
+
+svn checkout -r 400 # 400 nolu sürümdden yeni bir kopya oluşturur
+
+svn update -r 400 # mevcut dosyaları 400 nolu sürüm ile günceller
+
+svn cat -r 304 index.php #index.php nn 304. versiyonunun içeriğini görme.
+
+svn list -v svn://192.168.41.80/var/svn/apps_depo #deposundaki dosyalarin listesini verir. daha fazla ekstra bilgi istenirse -v veya verbose eklenebilir
+
+svn log -vr {2012-05-21}:{2012-05-22} #tarih arasındaki logları ayrıntılı olarak verir.
+
+svn log -vr {'2012-05-25 13:38:00'}:{'2012-05-25 13:38:59'} #time arasındaki logları ayrıntılı olarak verir.
+
+svn log -v svn://localhost/var/svn/apps_depo # SVN deposundaki dosya logunu gösterir
+
+svn log -v dosya.adı #lokalde belirtilen dosyanın logunu gösterir
+
+svn status –v #dizindeki tüm dosyaların durumları hakkında bilgi alıyoruz (SVN kopyası)
+
+svn update -r 304 index.php  #index.php nin 304 nolu versiyonuna dönüyoruz.
+
+svn move  <dosyaadi> <değişendosyaadı> # dosya/dizinleri tasimak/ismini degistirmek için.
+
+svn revert * #çakışmaları gidermek için.
+
+
+
+

@@ -1,0 +1,25 @@
+[root@linux ~]# telnet 212.101.121.51 25
+Trying 212.101.121.51...
+Connected to smtprelay2.mynet.com (212.101.121.51).
+Escape character is '^]'.
+220 smtprelay4.mynet.com ESMTP Postfix
+mail from:ozgurozcan@mynet.com
+250 2.1.0 Ok
+rcpt to:oner.omer@mynet.com
+250 2.1.5 Ok
+data
+354 End data with <CR><LF>.<CR><LF>
+dsfsdfsdf
+sd
+sdf
+sd
+f
+.
+250 2.0.0 Ok: queued as 1E9C023A8035
+
+500 5.5.2 Error: bad syntax
+
+500 5.5.2 Error: bad syntax
+421 4.4.2 smtprelay4.mynet.com Error: timeout exceeded
+Connection closed by foreign host.
+[root@faceweb ~]# 

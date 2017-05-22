@@ -1,0 +1,4 @@
+--screen /et/.../...sh
+--ctrl A-D aynı anda bas(background atması için)
+--screen -d çalışanı gösterir
+--screen -dr "ismi" içine girer

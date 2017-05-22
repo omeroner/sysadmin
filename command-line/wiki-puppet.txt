@@ -1,0 +1,4 @@
+## Config Verify
+puppet parser validate file.pp
+## Agent Test
+puppet agent --test

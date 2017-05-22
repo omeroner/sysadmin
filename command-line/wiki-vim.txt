@@ -1,0 +1,280 @@
+https://raw.githubusercontent.com/Selassin/Vim/master/Vim%20K%C4%B1sayollar%C4%B1
+Not: Eğer türkçe karakterler görünmüyorsa ":set encoding=utf-8" yazarak düzeltebilirsiniz(vimrc'ye de eklenebilir).
+
+İçindekiler:
+(Arama esnasında büyük küçük duyarlılığı varsa hepsini küçük yazın)
+
+1- Yazma Moduna Geçiş
+2- Dosya İçinde Hareket
+3- Silme, Kopyalama ve Yapıştırma
+4- Dosya veya Shell'den Veri Alma
+5- Depo kullanarak kopyalama ve Yapıştırma
+6- Görsel Modda Kopyalama ve Yapıştırma
+7- Kesme ve Değiştirme
+8- Arama ve Otomatik Değiştirme
+9- Undo, Redo
+10- Biçimlendirme
+11- Yazma/İşlem Kolaylaştırıcılar
+12- Macro
+13- Dosya İşlemleri
+14- Birçok Doya İle Aynı Anda Çalışma
+15- Tab'lar İle Çalışma  
+16- Birçok Pencere İle Aynı Anda Çalışma
+17- Shell
+18- Vim'i açarken Komut Çalıştırma
+19- Faydalı Linkler
+
+* yazma moduna geçiş
+
+i           bulunulan yerde yazma moduna geçer (i=insert)
+I           satır başına gidip yazma moduna geçer (I=insert)
+a           bir sonraki yerden bir karakter sağa kayıp yazma moduna geçer (a=append)
+A           satır sonuna gidip yazma moduna geçer (A=append)
+o           aşağıya yeni bir satır ekleyip yazma moduna geçer
+O           yukarıya bir satır ekleyip yazma moduna geçer
+<ESC>           yazma modundan çıkar
+                            
+* dosya içinde hareket
+                       
+h           sola bir karakter
+#h 	    satır yukarı
+l           sağa bir karakter
+j           aşağı satıra
+#j          # satır aşağı
+k           yukarı satıra
+H           imleç sayfa başına (high)
+#H          imleç sayfa başından 3 satır aşağıya
+L           imleç sayfa sonuna (low)
+#L          imleç sayfa sonundan # satır yukarıya
+M        imleç sayfa ortasına
+gg           dosya başına
+GG          dosya sonuna
+#G          #. satıra
+:#          #. satıra
+<CTRL>e         dosyayı yukarı doğru kaydır (imlecin yeri değişmez)
+<CTRL>y         dosyayı aşağıya doğru kaydır (imlecin yeri değişmez)
+zt          bulunulan satırı sayfanın başında gösterir(imlecin yeri değişmez) (t=top)
+zb          bulunulan satırı sayfanın sonuna gösterir(imlecin yeri değişmez) (b=bottom)
+zz          bulunulan satırı sayfanın ortasına gösterir(imlecin yeri değişmez)
+%           parantezin eşini bulur ve imleci oraya götürür
+''          imlecin bir önceki konumuna geri döner
+'.          en son değişikliğin yapıldığı satıra geri döner
+f<harf>         satırda, sağa doğru ilk harfin bulunduğu konuma gider
+F<harf>         satırda, sola doğru ilk harfin bulunduğu konuma gider
+ma          imlecin bulunduğu yeri a noktası olarak işaretle (a..z, A..Z, 0..9) (m=mark)
+'a          a noktasının bulunduğu satıra git
+`a          a noktasına git
+:marks         işaretli noktaların listesini gösterir
+                                                                                                                                                
+                                                                                                                                                
+* silme, kopyalama ve yapıştırma (delete, copy, paste)
+                                                                                                                                                
+x veya dl       karakteri sil (d=delete) (l=letter)
+X           önceki karakteri sil
+dw          bir sonraki kelimeye kadar sil (w=word)
+de          kelimenin sonuna kadar sil (e=end)
+db          kelimenin başına kadar sil (b=beginning)
+dd          satırı sil
+d'a         a noktasının bulunduğu satıra kadar sil
+d`a         a noktasına kadar sil
+d^          bulunulan yerden, satır başına kadar sil (^=satır başı)
+d$          bulunulan yerden, satır sonuna kadar sil ($=satır sonu)
+D           bulunulan yerden, satır sonuna kadar sil ($=satır sonu)
+#dd         # satır sil
+yl          harfi kopyala (y=yank) (l=letter)
+yw          bir sonraki kelimeye kadar kopyala (w=word)
+ye          kelimenin sonuna kadar kopyala (e=end)
+yb          kelimenin başına kadar kopyala (b=beginning)
+yy          satırı kopyala
+y'a        a noktasının bulunduğu satıra kadar kopyala
+y`a        a noktasına kadar kopyala
+y^         bulunulan yerden, satır başına kadar kopyala (^=satır sonu)
+y$           bulunulan yerden, satır sonuna kadar kopyala ($=satır sonu)
+p           bir sonraki pozisyona yapıştır (p=paste)
+P           bir önceki pozisyona yapıştır (P=paste)
+#p          # kere yapıştır
+
+:set paste       formatlanmış bir metni vim'e yapıştırmadan önce otomatik girintileme yapmasın diye
+:set nopaste     yapıştırma işlemi bittikten sonra
+                                                                                                                                                                                                                                                    
+* dosya veya shell'den veri alma
+:r dosya        dosyanın içeriğini imleçten sonraki kısma yazar
+:r !komut       komutun çıktısını imleçten sonraki kısma yazar
+                                                                                                                                                                                                                                                            
+* depo kullanarak kopyalama ve yapıştırma
+"add            silinen satırı 'a' kodlu depoya koy
+"ayy            kopyalanan satırı 'a' kodlu depoya koy
+"ap         'a' kodlu depodaki veriyi yapıştır
+:reg a          'a' kodlu depoda ne olduğunu gösterir (reg=register)
+:reg abcd       a, b c, d depolarında ne olduğunu gösterir
+:reg            bütün depoları gösterir
+a..z, A..Z, 0..9    depo kodu olarak bu karakterlerden biri kullanılabilir
+bütün kopyalama ve yapıştırma komutları, depolu biçimde de kullanılabilir
+                                                                                                                                                                                                                                                                                                            
+* görsel modda kopyalama ve yapıştırma
+                                                                                                                                                                                                                                                                                                            
+v           görsel moda geç, karakter seçme (v=visual)
+V           görsel moda geç, satır satır seç
+<CTRL>v         görsel moda geç, blok seç
+d           seçimi sil (d=delete)
+c           seçimi sil ve yazma moduna geç
+y           seçimi kopyala (y=yank)
+p           seçimi yapıştır (p=paste)
+                                                                                                                                                                                                                                                                                                                                        
+* kesme ve değiştirme (cut, replace)
+                                                                                                                                                                                                                                                                                                                                        
+r<harf>         imlecin bulunduğu harfi sil ve yerine, <harfi> yaz (r=replace)
+R           yazma moduna geç ve eski metnin üstüne yaz (R=replace)
+cw          bir sonraki kelimeye kadar olan kısmı sil ve yerine, yazılanları yaz (w=word)
+ce          kelimenin sonuna kadar olan kısmı sil ve yerine, yazılanları yaz (e=end)
+cb          kelimenin başına kadar olan kısmı sil ve yerine, yazılanları yaz (b=beginning)
+c'a         a noktasının bulunduğu satıra kadar sil ve yerine, yazılanları yaz
+c`a         a noktasına kadar sil ve yerine, yazılanları yaz
+c^          satırın başına kadar olan kısmı sil ve yerine, yazılanları yaz (^=satır başı)
+c$          satırın sonuna kadar olan kısmı sil ve yerine, yazılanları yaz ($=satır sonu)
+C        satırın sonuna kadar olan kısmı sil ve yerine, yazılanları yaz
+#cw          # kelimeyi sil ve yerine, yazılanları yaz
+
+
+* arama ve otomatik değiştirme
+*           imlecin üzerinde bulunduğu kelimenin tekrarını sonra doğru arar
+#           imlecin üzerinde bulunduğu kelimenin tekrarını başa doğru arar
+/sablon         sablonu sona doğru ara
+?sablon         sablonu başa doğru ara
+n           bir sonrakini bul
+N           bir öncekini bul
+:s/sablon/yeni      sablona uyan ilk metni, yenisi ile değiştir
+:s/sablon/yeni/g    satırda, sablona uyan tüm metinleri, yeni ile değiştir (g=global)
+:%s/sablon/yeni/g   dosyada, sablona uyan tüm metinleri, yeni ile değiştir (%s dosya)
+:%s/sablon/yeni/gc  dosyada, sablona uyan metinleri, yeni ile değiştir ama önce onay alır (c=confirm)
+şablonda ^      satır başı
+şablonda $      satır sonu
+şablonda [abc]      bu karakterlerden biri...
+şablonda [^abc]     bu karakterlerden hiçbiri...
+şablonda .      herhangi bir karakter
+şablonda *      herhangi bir karakter dizisi
+q/ veya /<CTRL>f   ileriye doğru yapılmış aramaların listesini verir
+q? veya ?<CTRL>f geriye doğru yapılmış aramaların listesini verir
+:set is            sablon yazılırken aramaya başla (is=instant search)
+:set hls        sablona uyanları belirginleştir (hls=highlighted search)
+:set nohls      hls modunu kapat (nohls=no highlighted search)
+:set ic         büyük-küçük harf ayırt etmeden arar (ic=ignore case)
+
+* undo, redo
+u           yapılan işlemi geri al (u=undo)
+U           satırı, imlecin satıra geldiği andaki şekle geri döndür (U=undo)
+<CTRL>r         undo işlemini geri al (r=redo)
+#u          son # değişikliği geri al
+
+
+* biçimlendirme
+:set expandtab      tab karakterlerini 
+:retab          boşluk karakterine çevirir
+:set noexpandtab    uygun sayıda boşluk karakterini
+:retab          tab karakterine çevirir
+>>          satırı, bir tab aralığı kadar sağa kaydırır
+<<          satırı, bir tab aralığı kadar sola kaydırır
+> <sağ ok tuşu>     bulunulan satırı kaydırır
+> <yukarı ok tuşu>  bulunulan satır ve bir üst satırı kaydırır
+> <aşağı ok tuşu>  bulunulan satır ve bir alt satırı kaydırır
+#>>        # satırı birden bir tab aralığı kadar kaydırır
+#> <yukarı ok tuşu>   bulunulan satır dahil yukarı doğru # satırı sağa kaydırır
+:set sw=4       tab aralığının kaç karakter uzunluğunda olacağını belirtir (sw=shift width)
+:set tabstop=8       tab ile kaç karakter gidileceğini belirler
+:set nu         satır numaralarını gösterir (nu=number)
+:set nonu       satır numaralarını gizler (nonu=no number)
+~           imlecin üstünde bulunduğu karakteri büyükse küçük, küçükse büyük yapar 
+:TOhtml         metni üretecek HTML kodunu üretir, renklendirmeleri dikkate alır
+
+
+* yazma/işlem kolaylaştırıcılar
+<CTRL>l         refresh
+:set list/nolist    görünmeyen karakterleri göstermek veya göstermemek için...
+ga veya :as     imlecin altındaki karakterin, karakter kodunu gösterir
+<CTRL>n         yazma modundayken kelimeyi, var olan kelimelere bakarak tamamlar (n=next)
+<CTRL>p         yazma modundayken kelimeyi, var olan kelimelere bakarak tamamlar (p=previous)
+.           son yapılan işlemi tekrarlar
+q: veya :<CTRL>f    kullanılmış komutların listesini verir
+q/ veya /<CTRL>f    ileriye doğru yapılmış aramaların listesini verir
+q? veya ?<CTRL>f    geriye doğru yapılmış aramaların listesini verir
+<CTRL>c <CTRL>c     komut/arama listesinden çıkmak için
+<CTRL>x         imleçin üstünde bulunduğu sayıyı bir azaltır
+<CTRL>a         imleçin üstünde bulunduğu sayıyı bir çoğaltır
+screen altındayken <CTRL>aa
+:set foldmethod=indent  indent'lere göre blokları belirler (Python kodu için...)
+zo          bloğu açar
+zO          bütün blokları açar
+zc          bloğu kapatır
+zC          bütün blokları kapatır
+za          açıksa, kapalı; kapalıysa, açık hale getirir
+zj          sonraki bloğa geçer
+zk          önceki bloğa geçer
+<CTRL> x o      omnifunc tanımlanmış dosya biçimleri için kod tamamlar
+
+
+* macro
+q           ilk seferde makro bloğuna gider
+bundan sonra girilen ilk harf makronun adı olur
+bundan sonra yapılan bütün işlemler makro bloğuna kaydedilir
+tekrar q'ye basıldığında makro kaydı sona erer
+@<harf>         makroyu çalıştırır
+"<harf>p        makro içeriğini metin olarak sayfaya yazar
+~/.viminfo dosyasından da makro kayıtları görünebilir
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+* dosya işlemleri
+:new            yeni dosya oluştur
+:S          dosya tarayıcısını aç. Seçimler için <ENTER> kullan
+:e dosya        var olan bir dosyayı aç (e=edit)
+:w          yapılan değişiklikleri kaydet (w=write)
+:w dosya        yapılan değişiklikleri 'dosya' adı ile kaydet (w=write)
+:wq         yapılan değişiklikleri kaydedip çık (w=write) (q=quit)
+:q!        yapılan değişiklikleri kaydetmeden çık (q=quit)
+:Nread scp://kullanici@12.12.12.12/klasor/dosya        dosyaya scp ile uzaktaki makineden açar (Nread=network read)
+:Nwrite scp://kullanici@12.12.12.12/klasor/dosya    dosyayı scp ile uzaktaki makineye kaydeder (Nwrite=network write)
+
+* birçok dosya ile aynı anda çalışma
+:bn         bir sonraki tampon belleğe geç
+:bp         bir önceki tampon belleğe geç
+:wn         değişiklikleri kaydet ve bir sonraki tampon belleğe geç
+:wp         değişiklikleri kaydet ve bir önceki tampon belleğe geç
+:bn!            değişiklikleri kaydetmeden bir sonraki tampon belleğe geç
+:b#         # numaralı tampon belleğe geç
+:bd         tampon bellegi siler
+:bd#            # numaralı tampon belleği siler
+:set hidden     bir tampon bellekten diğerine, değişiklikleri kaydetmeden geçmeye izin verir
+
+* Tab'lar ile çalışma
+:tabedit        yeni tab oluşturur
+:tabnew dosya_adi   yeni tab oluşturur ve dosyayı bu tab'da açar
+:tabc           tab'ı kapatır
+:tabmove        tab'ı taşı
+gt          sonraki tab'a git
+gT         önceki tab'a git
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+* birçok pencere ile aynı anda çalışma
+:vsp            ekranı dikeyde iki pencereye böl (vsp=vertical split)
+:sp         ekranı yatayda iki pencereye böl (sp=split)
+<CTRL>w<CTRL>w       diğer pencereye geç
+<CTRL>w<ok tuşu>    ok yönündeki pencereye geç
+<CTRL>w<hjkl>       yön karakterine göre pencereye geç
+<CTRL>w +       pencereyi 1 satır uzat
+<CTRL>w -       pencereyi 1 satır kısalt
+<CTRL>w c       pencereyi kapat
+:q          pencereyi kapat (q=quit)
+
+
+* shell
+
+:!komut         komutu çalıştır
+:sh         shell'i çalıştır. Shell'den çıkmak için "exit" komutunu kullan
+
+* vim'i açarken komut çalıştırma
+(Terminal veya konsoldan)
+vim +komut1 +komut2 ... +komutN dosya_adi
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+* faydalı linkler
+http://bullium.com/support/vim.html
+http://www.rayninfo.co.uk/vimtips.html
+http://www.vim.org/tips/index.php
+http://www.viemu.com/a_vi_vim_graphical_cheat_sheet_tutorial.html
+http://vim.wikia.com/wiki/Best_Vim_Tips
