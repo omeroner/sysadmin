@@ -30,7 +30,7 @@ sync {
     default.rsync,
     delete = false,
     source="/data/ApacheDocs/htdocs/images/",
-    target="lighttpd@195.87.93.144:/data/ApacheDocs/htdocs/images/",
+    target="username@ipaddress:/data/ApacheDocs/htdocs/images/",
     exclude = { 'sitemap_*.xml*','robots.txt*' },
     rsync = {
         compress = false,
@@ -43,8 +43,8 @@ sync {
 sync {
     default.rsync,
     delete = false,
-    source="/data/ApacheDocs/htdocs-macro/images/",
-    target="lighttpd@195.87.93.144:/data/ApacheDocs/htdocs-macro/images/",
+    source="/data/ApacheDocs/htdocs2/images/",
+    target="usrname@ipaddress:/data/ApacheDocs/htdocs2/images/",
     exclude = { 'sitemap_*.xml*','robots.txt*' },
     rsync = {
         compress = false,
