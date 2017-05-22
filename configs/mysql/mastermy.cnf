@@ -1,0 +1,126 @@
+# /etc/my.cnf
+# omeroner tarafinda hazirlandi. 2015-04-19 
+# https://dev.mysql.com/doc/refman/5.6/en/server-parameters.html
+# http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html
+
+## <innodb-log-file-size> Hesaplama; 
+## mysql> pager grep sequence
+## PAGER set to 'grep sequence'
+## mysql> show engine innodb status\G select sleep(60); show engine innodb status\G
+## Log sequence number 1075061880067
+## Log sequence number 1075063813751
+## SELECT (1075063813751 - 1075061880067) / 1024 / 1024 AS MB_per_min;
+## MB_per_min
+## ----------
+## 1.84410477
+## 1 saatlik log transaction icin; SELECT (1.84410477 * 60) AS total_trs_per_hour;
+## total_trs_per_hour
+## ------------------
+##      110.64628620
+## innodb_log_files_in_group 2 oldugu icin 64MB*2=128MB olarak set edilir.
+
+
+[client]
+port                           = 3306                            # TCP/IP baglantilari icin dinlenilecek port numarasi Unix ve turevi sistemlerde, port numarasi 1024 veya daha yuksek olmalidir.
+socket                         = /var/lib/mysql/run/mysql.sock   # Yerel baglantilari dinlerken kullanilan Unix socket dosyasidir.
+user                           = root
+password                       = **********
+
+
+[mysqld]
+# General
+user                           = mysql                           # Mysqld'yi calistiracak kullanici hesabi.
+port                           = 3306                            # TCP/IP baglantilari icin dinlenilecek port numarasi Unix ve turevi sistemlerde, port numarasi 1024 veya daha yuksek olmalidir.
+socket                         = /var/lib/mysql/run/mysql.sock   # Yerel baglantilari dinlerken kullanilan Unix socket dosyasidir.
+pid-file                       = /var/lib/mysql/run/mysqld.pid   # Process Id'nin tutuldugu dosyasinin adi ve dizini.    
+default-storage-engine         = InnoDB                          # Tablolar icin varsayilan depolama motoru.
+character-set-server           = latin5                          # Database ve Tablolar icin varsayilan character-set. 
+server-id                      = 14199                           # Sunucu ID'si
+
+# Safety
+max_allowed_packet             = 16MB                           # Maksimum paket boyutu.
+old_passwords                  = 1                               # Password hashing method. Varsayilan deger 0'dir. 
+symbolic-links                 = 0                               # Tablo ve DB icin Sembolik baglantileri devre disi birakilir.
+explicit_defaults_for_timestamp                                  # Onerilmeyen bir parametre ilerki surumlerde kaldirilacak.
+skip-name-resolve                                                # Istemci baglantilarini kontrol ederken ana bilgisayar adlarini cozumlemez.
+
+# Data & Tmp 
+datadir                        = /var/lib/mysql/data/            # Mysql data dizini.
+tmpdir                         = /var/lib/mysql/tmp/             # Gecici dosyalarin olusturuldugu dizin.
+
+# Connection and Thread variables
+max_connections                = 300                             # < 1000 iyi bir deger
+back_log                       = 110                             # TCP/IP baglanti kuyrugunun boyutudur. 50 + (max_connections / 5)
+thread_cache_size              = 12                              # 8 + (max_connections / 100)
+
+
+# Query Cache
+query_cache_type               = 1                               # Query Cache'i aktif ediyoruz. Varsayilan deger 0'dir. 
+query_cache_size               = 256MB                           # Query Cache icin kullanilacak bellek alani..
+query_cache_limit              = 8MB
+
+# Session & Memory variables
+sort_buffer_size               = 32MB                            # Order(siralama) yapmak icin kullanilan tampon boyutu. Varasayilan deger 262144'dir.
+tmp_table_size                 = 16MB                            # Gecici tablolarin maksimum boyutu. Varsayilan deger 16777216'dir.
+max_heap_table_size            = 16MB                            # Bellekte olusan en buyuk tablolarin boyutu max_heap_table_size sistem degisken ile sinirlidir.
+read_buffer_size               = 131072                          # Varsayilan deger 131072'dir.
+read_rnd_buffer_size           = 262144                          # Varsayilan deger 262144'dir.
+
+# Other buffers and caches
+table_definition_cache         = 656                             # 400+ (table_open_cache / 2)
+table_open_cache               = 1024                            # Varsayilan deger 2000'dir.
+join_buffer_size               = 256K
+
+# MySQL error log
+log_warnings                   = 1                               # Log Level. (0 = disabled, 1 = enabled, 2 = enabled + log aborted connections) 
+log-error                      = /var/lib/mysql/logs/error.log   # Log dosyasinin bulundugu dizin. 
+
+# General Query Log
+general_log                    = 0                               # Varsayilan deger 0'dir.
+general_log_file               = /var/lib/mysql/logs/general.log # General log dosyasinin bulundugu dizin. 
+
+# Slow Query Log
+log-queries-not-using-indexes  = 0                               # Indeks kullanmayan sorgularin tespiti icin kullanilir. Varsayilan deger 0'dir. 1 yaparsak slow.log dosyasina yazar.
+slow_query_log                 = 1                               # Yavas sorgularin tespiti icin aktif ediyoruz. Varsayilan deger 0'dir.
+long_query_time                = 3                               # 3 sn'den cok suren sorgulari slow query kabul ediyoruz.
+slow-query-log-file            = /var/lib/mysql/logs/slow.log    # Slow query'lerin yazilacagi dosya.
+
+# InnoDB variables
+innodb_data_home_dir            = /var/lib/mysql/data/           # InnoDB datalari icin varsayilan dizin.
+innodb_log_files_in_group       = 2                              # InnoDB log dosyalarinin kac gruba ayrilacagi.(ib_logfile0,ib_logfile1 gibi)
+innodb_log_group_home_dir       = /var/lib/mysql/data/           # ib_logfile0 ve ib_logfile1 log dosyalarinin bulunacagi dizin.
+innodb-log-file-size            = 512M                           # Gunluk log dosyalarin toplam boyutu ( innodb_log_file_size * innodb_log_files_in_group ) 128MB kadar olabilir.
+innodb_log_buffer_size          = 8M                             # InnodDB log dosyasina yazmadan once bellekte kullanacagi tampon boyutu.Varsayilan deger 8MB'dir.
+innodb-buffer-pool-size         = 60GB                           # Makinenin fiziksel bellek boyutunun %80'i kadar. InnoDB Performans icin en onemli parametredir.
+innodb-buffer-pool-instances    = 4                              # Eger innodb-buffer-pool-size 1GB uzerinde set edildiyse etkili olur.InnoDB tampon havuzunu 4' bolduk.
+innodb-read-io-threads          = 12                             # InnoDb okuma islemleri icin I/O iS parcacigi sayisi. Varsayilan deger 4'tur.
+innodb-write-io-threads         = 12                             # InnoDb yazma islemleri icin I/O iS parcacigi sayisi. Varsayilan deger 4'tur.
+innodb-file-per-table           = 1                              # MySQL 5.6.6 ile Varasayilanda aktifdir. 
+innodb_additional_mem_pool_size = 8MB                            # Varsayilan deger 8MB'dir.
+innodb_file_per_table           = 1                              # Her tabloyu farkli *.ibd dosya olarak olusturmak icin.
+innodb_flush_method             = O_DIRECT                       # InnoDB veri dosyalarini flush'lamak icin kullanilan yontem.I/O verimini etkiler.
+
+# Replication
+log_bin                        = /var/lib/mysql/data/mysql-bin       # (Mater Server) Replikasyon isleminin surduruldugu dosya.Binlog aktif (master host ise)
+expire_logs_days               = 7                                   # (Mater Server) Eski binlog'lari sil. 7 gunluk log tutuluyor.
+binlog_format                  = MIXED
+binlog-ignore-db               = mysql
+binlog-ignore-db               = information_schema
+binlog-ignore-db               = performance_schema
+binlog-ignore-db               = backup
+binlog-ignore-db               = test
+master_info_repository         = TABLE
+relay_log_info_repository      = TABLE
+
+
+# Myisam
+myisam_sort_buffer_size         = 64MB
+key_buffer_size                 = 3GB                             # key_buffer_size dogrudan indexi arabellege alma hizini etkiler.
+
+[mysqldump]
+max_allowed_packet             = 16MB                             # Maksimum paket boyutu.
+
+[mysqld_safe]
+log-error                      = /var/lib/mysql/logs/error.log
+pid-file                       = /var/lib/mysql/run/mysqld.pid
+socket                         = /var/lib/mysql/run/mysql.sock

@@ -1,0 +1,258 @@
+Apache .htaccess Kullanımı ve Ipuçları
+
+Konu ıçeriği
+
+1. Klasörlere Erişim = Folder Access
+2. Klasör Listelemek = Folder List
+3. Sıkıştırma = Bandwidth Compress
+4. Dosyaları Gizlemek = Folder Hidden
+5. Özel HTTP 404 Hata Sayfası = 404 Error Page
+6. Hotlinking’i Engellemek = Hotlink Block
+7. Kötü Bot’ları Engellemek = Bot Block
+8. no-www Desteği = No-WWW Aid
+9. Hangi Dili Kullandığınızı Saklamak = Language Hidden
+10. Değişik ıpuçları
+11. .htpasswd ile şifre Koruması = .htpasswd Password Protection
+12. Öntanımlı Sayfayı Değiştirmek = Page Change
+
+.htaccess dosyasında birkaç değişiklik yaparak Apache üzerindeki sitenizde gizli klasörler oluşturabileceğinizi, hotlinking’i engelleyebileceğinizi, hatta zararlı bot’lardan korunabileceğinizi biliyor muydunuz?
+
+Bu yazı Apache .htaccess tweaking tutorial
+
+makalesinin Türkçe çevirisi olup bazı eklemeler ve değişiklikler içerebilir.
+
+Not: .htaccess (Hypertext Access), Apache’nin klasör düzeyinde ayarlara izin veren, genel ayar dosyasındaki direktifleri özelleştirebilen dosyadır.
+1. Klasörlere Erişim
+
+Bir klasöre tüm erişimi engellemek istiyorsanız (mesela program kaynak kodlarınızı barındıran bir klasörünüz olabilir; bu durumda klasöre internetten değil, yalnızca dosya sisteminden erişmeyi isteyebilirsiniz) klasörün içinde .htaccess dosyası oluşturup içine
+Kod:
+
+#deny all access
+deny from all
+
+yazmanız yeterli. Eğer bu klasöre yalnızca belirlediğiniz ip adresiyle veya ip bloğu tarafından erişilmesini istiyorsanız
+
+Kod:
+
+#deny all access
+deny from all
+allow from 10.0.0.1 # tek ip adresi
+allow from 192.168.0.0/24 # ip bloğu
+
+yazmanız yeterli. Tek bir dosya için erişimi engellemek için ise yazmanız gereken şu:
+
+Kod:
+
+<Files private.html>
+Order allow,deny
+Deny from all
+</Files>
+
+2. Klasör Listelemek
+
+Bir klasördeki dosyaların listelenmesini istiyorsanız .htaccess dosyasına şunları yazmanız gerekiyor:
+
+Kod:
+
+Options +Indexes +MultiViews +FollowSymlinks
+<ifmodule mod_autoindex.c>
+IndexOptions FancyIndexing
+</ifmodule>
+
+Bunun için sunucunuzda autoindex modülünün yüklü olması gerekiyor. Klasördeki öntanımlı listelemeyi iptal etmek için ise şu satır yeterli:
+
+Kod:
+
+IndexIgnore *
+
+3. Sıkıştırma
+
+Sitenizin bant genişliğini (bandwidth) korumak için bir php özelliği olan veri sıkıştırmayı kullanabilirsiniz. .htaccess dosyasına şunu eklemelisiniz:
+
+Kod:
+
+<ifModule mod_php4.c>
+php_value zlib.output_compression 16386
+</ifModule>
+
+4. Dosyaları Gizlemek
+
+Belirli dosyalara erişimi engellemek için Files direktifiyle birlikte Regular Expression kullanabilirsiniz. Örnek olarak konfigürasyon dosyalarına, robot.txt’e veya log’lara erişimi engellemek isteyebilirsiniz. Aşağıdaki örnek klasördeki .ht ile başlayan dosyalara erişimi engellemektedir.
+
+Kod:
+
+<Files ~ “^\.ht”>
+Order allow,deny
+Deny from all
+Satisfy All
+</Files>
+
+5. Özel HTTP 404 Hata Sayfası
+
+Ziyaretçileriniz “404: Sayfa Bulunamadı” hatasıyla karşılaşacaklarında sizin istediğiniz bir dosyaya yönlenmelerini sağlamak için şu kodu kullanın:
+
+Kod:
+
+ErrorDocument 404 /errors/notfound.html
+
+Bu şekilde diğer hata kodlarını da özelleştirebilirsiniz. Dikkat! Internet Explorer 512 bayttan küçük hata sayfalarıyla karşılaştığında, MSN search gibi bağlantıların bulunduğu kendi hata sayfasını kullanıcıya göstermektedir. Belirttiğiniz hata sayfasının 512B’tan büyük olduğuna emin olun.
+6. Hotlinking’i Engellemek
+
+Hotlinking basitçe sizin sitenizdeki bir resmi, videoyu başka bir sitenin göstermesine denir. Bu durumda olan sizin bandwidth’inize olur. Örnek olarak sitenizin dışında kullanılan bazı dosyalara erişimi engelleyip nohotlink.gif adında bir resim dosyası gönderen şu koda bakalım:
+
+Kod:
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://([-a-z0-9]+\.)?siteniz\.com[NC]
+RewriteRule .*\.(zip|mp3|avi|wmv|mpg|mpeg)$ http://www.siteniz.com/img/nohotlink.gif [R,NC,L]
+</ifModule>
+
+Kod basitçe siteniz.com dışından çağırılan zip, mp3 ve bazı video dosyaları yerine nohotlink.gif dosyasını gösteriyor. Dikkat! Eğer resim hotlink’lerini engellerseniz site dışından istenen tüm resimleri engelleyeceksiniz. Bu durumda mesela feedburner gibi bir hizmet kullanıyorsanız bu hizmet için kodunuzu değiştirmeniz gerekecektir.
+7. Kötü Bot’ları Engellemek
+
+Sitenizi kullanan veya tamamen indirmek isteyen bot’lara karşı .htaccess dosyasını kullanabilirsiniz:
+
+Kod:
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTP_USER_AGENT} ^BlackWidow [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Bot\ mailto:craftbot@yahoo.com [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ChinaClaw [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Custo [OR]
+RewriteCond %{HTTP_USER_AGENT} ^DISCo [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Download\ Demon [OR]
+RewriteCond %{HTTP_USER_AGENT} ^eCatch [OR]
+RewriteCond %{HTTP_USER_AGENT} ^EirGrabber [OR]
+RewriteCond %{HTTP_USER_AGENT} ^EmailSiphon [OR]
+RewriteCond %{HTTP_USER_AGENT} ^EmailWolf [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Express\ WebPictures [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ExtractorPro [OR]
+RewriteCond %{HTTP_USER_AGENT} ^EyeNetIE [OR]
+RewriteCond %{HTTP_USER_AGENT} ^FlashGet [OR]
+RewriteCond %{HTTP_USER_AGENT} ^GetRight [OR]
+RewriteCond %{HTTP_USER_AGENT} ^GetWeb! [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Go!Zilla [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Go-Ahead-Got-It [OR]
+RewriteCond %{HTTP_USER_AGENT} ^GrabNet [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Grafula [OR]
+RewriteCond %{HTTP_USER_AGENT} ^HMView [OR]
+RewriteCond %{HTTP_USER_AGENT} HTTrack [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^Image\ Stripper [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Image\ Sucker [OR]
+RewriteCond %{HTTP_USER_AGENT} Indy\ Library [NC,OR]
+RewriteCond %{HTTP_USER_AGENT} ^InterGET [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Internet\ Ninja [OR]
+RewriteCond %{HTTP_USER_AGENT} ^JetCar [OR]
+RewriteCond %{HTTP_USER_AGENT} ^JOC\ Web\ Spider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^larbin [OR]
+RewriteCond %{HTTP_USER_AGENT} ^LeechFTP [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Mass\ Downloader [OR]
+RewriteCond %{HTTP_USER_AGENT} ^MIDown\ tool [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Mister\ PiX [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Navroad [OR]
+RewriteCond %{HTTP_USER_AGENT} ^NearSite [OR]
+RewriteCond %{HTTP_USER_AGENT} ^NetAnts [OR]
+RewriteCond %{HTTP_USER_AGENT} ^NetSpider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Net\ Vampire [OR]
+RewriteCond %{HTTP_USER_AGENT} ^NetZIP [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Octopus [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Offline\ Explorer [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Offline\ Navigator [OR]
+RewriteCond %{HTTP_USER_AGENT} ^PageGrabber [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Papa\ Foto [OR]
+RewriteCond %{HTTP_USER_AGENT} ^pavuk [OR]
+RewriteCond %{HTTP_USER_AGENT} ^pcBrowser [OR]
+RewriteCond %{HTTP_USER_AGENT} ^RealDownload [OR]
+RewriteCond %{HTTP_USER_AGENT} ^ReGet [OR]
+RewriteCond %{HTTP_USER_AGENT} ^SiteSnagger [OR]
+RewriteCond %{HTTP_USER_AGENT} ^SmartDownload [OR]
+RewriteCond %{HTTP_USER_AGENT} ^SuperBot [OR]
+RewriteCond %{HTTP_USER_AGENT} ^SuperHTTP [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Surfbot [OR]
+RewriteCond %{HTTP_USER_AGENT} ^tAkeOut [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Teleport\ Pro [OR]
+RewriteCond %{HTTP_USER_AGENT} ^VoidEYE [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Web\ Image\ Collector [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Web\ Sucker [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebAuto [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebCopier [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebFetch [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebGo\ IS [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebLeacher [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebReaper [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebSauger [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Website\ eXtractor [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Website\ Quester [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebStripper [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebWhacker [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WebZIP [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Wget [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Widow [OR]
+RewriteCond %{HTTP_USER_AGENT} ^WWWOFFLE [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR]
+RewriteCond %{HTTP_USER_AGENT} ^Zeus
+RewriteRule .* – [F]
+</ifModule>
+
+8. no-www Desteği
+
+Siz de sitelerde www subdomain’inin kullanılmasına karşıysanız bu kod işinizi görecektir:
+
+Kod:
+
+<IfModule mod_rewrite.c>
+Options +FollowSymlinks
+RewriteEngine on
+RewriteCond %{http_host} ^www\.example\.com[nc]
+RewriteRule ^(.*)$ http://example.com/$1 [r=301,nc]
+</ifModule>
+
+9. Hangi Dili Kullandığınızı Saklamak
+
+Dosyalarınızın uzantılarını değiştirip .htaccess dosyasına bir kural ekleyerek hangi dili kullandığınızı ziyaretçilerinizden saklayabilirsiniz. Aşağıdaki örnek sayesinde .133t uzantılı dosyalar PHP dosyaları gibi işlenecektir.
+
+Kod:
+
+# Make PHP code look like unknown types
+AddType application/x-httpd-php .133t
+
+10. Değişik ıpuçları
+
+* .htaccess dosyasını olabildiğince küçük tutun. Çünkü her dosya isteğinde sunucu tarafından kontrol edilirler.
+* .htaccess dosyasını düzenli tutun. Kurallar arttıkça dosyayı anlaması zorlaşacaktır. # kullanarak her bölüme açıklama yazın.
+* URL’i yeniden tanımladığınız, bir önceki sayfaya yönlenen kurallarda (Nohotlink örneği gibi) [L] özelliğini ekleyin. Bu sunucuya, başka bir kuralı uygulamamasını belirtir.
+* .htaccess kurallarının alt klasörlerde de geçerli olduğunu, alt klasördeki .htaccess kuralının ise üzerindeki kuralları değiştirebileceğini düşünün.
+
+11. .htpasswd ile şifre Koruması
+
+ıstediğiniz dosya veya klasörlere şifre eklemek için şu adımları takip edin:
+
+* şifrelemek istediğiniz klasörde .htpasswd dosyası oluşturun.
+* Dosya içeriği kullanıcıadı:şifre tarzındadır. Kullanıcı adı düz metindir. şifrenin ise şifrelenmiş olması gerekir. şifrenizi almak için şu adresi kullanabilirsiniz.
+* Dosyayı kendi bilgisayarınızda oluşturup sunucuya upload ettiyseniz ASCII mode kullandığınızdan emin olun.
+
+şimdi .htaccess dosyanızı düzenleyin. Kural, düzenlediğiniz dosyanın bulunduğu klasörde ve alt klasörlerinde geçerli olacaktır:
+
+Kod:
+
+AuthUserFile /home/pathto/.htpasswd
+AuthType Basic
+AuthName “My Secret Folder”
+
+<LIMIT GET POST>
+require valid-user
+</LIMIT>
+
+Kuralı tek dosya için oluşturmak istiyorsanız kodu direktifi içinde kullanmalısınız.
+
+.htaccess dosyanızın erişilebilir olmadığına emin olun. (bkz. 1. başlık)
+12. Öntanımlı Sayfayı Değiştirmek
+
+Öntanımlı sayfa bilgisini aşağıdaki şekilde, sıraya dikkat ederek değiştirebilirsiniz:
+
+Kod:
+
+DirectoryIndex home.html index.htm index.html index.php
