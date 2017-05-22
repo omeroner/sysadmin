@@ -56,6 +56,20 @@ sync {
 }
  ```
  
+### Setting inotify
+
+  Confirmation
+   ```sh
+    sysctl -a | grep fs.inotify
+
+     Fs.inotify.max_user_watches = 8192 
+ ```
+  Change
+  ```sh
+     Edit /etc/sysctl.conf (/etc/sysctl.d/xxx.conf)
+        Fs.inotify.max_user_watches = 524288 
+     Sudo sysctl -p
+  ```
 ## Service Start
 
  ```sh
@@ -63,3 +77,5 @@ sync {
    sudo systemctl enable lsyncd.service
    sudo systemctl start lsyncd.service
  ```
+ 
+ 
