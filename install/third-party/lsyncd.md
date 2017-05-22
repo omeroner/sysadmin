@@ -56,9 +56,6 @@ sync {
 }
  ``
 
-
-}
-
 Start the lsyncd daemon
  Fedora series)
    Sudo cp lsyncd.conf / etc
