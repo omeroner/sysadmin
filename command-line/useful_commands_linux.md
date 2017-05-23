@@ -1,6 +1,6 @@
 
 ### Top / Ps
-io yapan process'leri bulmak.
+io yapan process'leri bulmak
 ```sh
 while true; do date; ps auxf | awk '{if($8=="D") print $0;}'; sleep 1; done
 ```
@@ -24,8 +24,46 @@ echo -e '\E[37;44m'"\033[1m*********192.168.41.81 UPDATE OLAN DOSYALAR**********
 ```
 
 
+### Telnet
+apache check
+```sh
+telnet localhost 80 [enter]
+GET /HTTP/1.0 [enter] [enter]or
 
 
+Code:
+telnet localhost 80 [enter]
+HEAD /HTTP/1.0 [enter] [enter]
+```
+
+Mail Send 
+```sh
+$ telnet mail.syslnx.net 25
+```
+```sh
+HELO linuxconfig.org
+```
+```sh
+MAIL FROM: someaddress@syslnx.net
+```
+```sh
+RCPT TO: some@email.add
+```
+
+```sh
+DATA
+Subject: Sending an email using telnet
+
+Hello,
+
+Here is my body? Do you like it?
+
+cheers
+.
+```
+```sh
+quit
+```
 
 
 
