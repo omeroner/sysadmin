@@ -28,3 +28,6 @@ Geçici olarak değiştirmek için aşağıdaki komutu kullan
 
     colo desert
     syntax on
+
+###  örnek .vimrc config dosyası
+https://github.com/omeroner/sysadmin/blob/master/configs/.vimrc
