@@ -1,5 +1,6 @@
 
-## MYSQL ALIAS ###################################
+### MYSQL ALIAS
+```sh
 alias mysql="mysql --login-path=root"
 alias mysqldata="cd /var/lib/mysql/data/"
 alias mysqltmp="cd /var/lib/mysql/tmp/"
@@ -15,8 +16,10 @@ alias mysqltop='watch -n 1 "echo "show full processlist" | mysql --login-path=ro
 alias masterstatus='mysql -e "show master status"'
 alias slavestatus='mysql -e "show slave status\G;"'
 alias mycnf='vim /etc/my.cnf'
+```
 
-
-## /data/scripts/mysqlcolorlog.sh ################# 
+### /data/scripts/mysqlcolorlog.sh
+```sh
 #!/bin/sh
 tail -f -n200 /var/lib/mysql/logs/error.log | awk '/Note/ {print "\033[32m" $0 "\033[39m"}/Warning/ {print "\033[31m" $0 "\033[39m"}'
+```
