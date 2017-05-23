@@ -1,15 +1,18 @@
-#io yapan process'leri bulmak.
+
+### Top / Ps
+io yapan process'leri bulmak.
 ```sh
 while true; do date; ps auxf | awk '{if($8=="D") print $0;}'; sleep 1; done
 ```
 
-# Sn'lik cron
+### Crontob
+Sn'lik cron
 ```sh
 while true; do  /usr/local/php/bin/php /var/www/html/apps.oyun.mynet.com/batch/riffi.php ; sleep 4 ; done
 ```
 
 
-# Netstat
+### Netstat
 ```sh
 netstat -atun | awk '{print $5}' | cut -d: -f1 | sed -e '/^$/d' |sort | uniq -c | sort -n
 netstat -an | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' | sort | uniq -c
