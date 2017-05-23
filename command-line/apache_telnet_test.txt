@@ -1,7 +1,0 @@
-telnet localhost 80 [enter]
-GET /HTTP/1.0 [enter] [enter]or
-
-
-Code:
-telnet localhost 80 [enter]
-HEAD /HTTP/1.0 [enter] [enter]
