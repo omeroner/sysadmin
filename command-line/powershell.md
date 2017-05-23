@@ -1,4 +1,5 @@
-```cmd
+```powershell
+a  
    ADDUSERS Add or list users to/from a CSV file
    ARP      Address Resolution Protocol
    ASSOC    Change file extension associations•
