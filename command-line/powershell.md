@@ -1,13 +1,18 @@
-a  
+a 
+```
    ADDUSERS Add or list users to/from a CSV file
    ARP      Address Resolution Protocol
    ASSOC    Change file extension associations•
    ASSOCIAT One step file association
    ATTRIB   Change file attributes
+   ```
 b
+```
    BOOTCFG  Edit Windows boot settings
    BROWSTAT Get domain, browser and PDC info
+```
 c
+```
    CACLS    Change file permissions
    CALL     Call one batch program from another•
    CD       Change Directory - move to a specific Folder•
@@ -32,7 +37,9 @@ c
    COPY     Copy one or more files to another location•
    CSCcmd   Client-side caching (Offline Files)
    CSVDE    Import or Export Active Directory data 
+```
 d
+```
    DATE     Display or set the date•
    DEFRAG   Defragment hard drive
    DEL      Delete one or more files•
@@ -53,7 +60,9 @@ d
    DSMod    Modify items in active directory (user group computer)
    DSMove   Move an Active directory Object
    DSRM     Remove items from Active Directory
+```
 e
+```
    ECHO     Display message on screen•
    ENDLOCAL End localisation of environment changes in a batch file•
    ERASE    Delete one or more files•
@@ -61,7 +70,9 @@ e
    EXIT     Quit the current script/routine and set an errorlevel•
    EXPAND   Uncompress files
    EXTRACT  Uncompress CAB files
+```
 f
+```
    FC       Compare two files
    FIND     Search for a text string in a file
    FINDSTR  Search for strings in files
@@ -74,27 +85,39 @@ f
    FSUTIL   File and Volume utilities
    FTP      File Transfer Protocol
    FTYPE    Display or modify file types used in file extension associations•
+```
 g
+```
    GLOBAL   Display membership of global groups
    GOTO     Direct a batch program to jump to a labelled line•
    GPUPDATE Update Group Policy settings
+```
 h
+```
    HELP     Online Help
+```
 i
+```
    iCACLS   Change file and folder permissions
    IF       Conditionally perform a command•
    IFMEMBER Is the current user in an NT Workgroup
    IPCONFIG Configure IP
+```
 k
+```
    KILL     Remove a program from memory
+```
 l
+```
    LABEL    Edit a disk label
    LOCAL    Display membership of local groups
    LOGEVENT Write text to the NT event viewer
    LOGMAN   Manage Performance Monitor
    LOGOFF   Log a user off
    LOGTIME  Log the date and time in a file
+```
 m
+```
    MAPISEND Send email from the command line
    MBSAcli  Baseline Security Analyzer. 
    MEM      Display memory usage
@@ -111,7 +134,9 @@ m
    MSTSC    Terminal Server Connection (Remote Desktop Protocol)
    MUNGE    Find and Replace text within file(s)
    MV       Copy in-use files
+```
 n
+```
    NET      Manage network resources
    NETDOM   Domain Manager
    NETSH    Configure Network Interfaces, Windows Firewall & Remote access
@@ -122,9 +147,13 @@ n
    NSLOOKUP Name server lookup
    NTBACKUP Backup folders to tape
    NTRIGHTS Edit user account rights
+```
 o
+```
    OPENFILES Query or display open files
+```
 p
+```
    PATH     Display or set a search path for executable files•
    PATHPING Trace route plus network latency and packet loss
    PAUSE    Suspend processing of a batch file and display a message•
@@ -152,9 +181,13 @@ p
    PsShutdown Shutdown or reboot a computer
    PsSuspend  Suspend processes
    PUSHD    Save and then change the current directory•
+```
 q
+```
    QGREP    Search file(s) for lines that match a given pattern.
+```
 r
+```
    RASDIAL  Manage RAS connections
    RASPHONE Manage RAS connections
    RECOVER  Recover a damaged file from a defective disk.
@@ -172,7 +205,9 @@ r
    RUN      Start-RUN commands
    RUNAS    Execute a program under a different user account
    RUNDLL32 Run a DLL command (add/remove print connections)
+```
 s
+```
    SC       Service Control
    SCHTASKS Schedule a command to run at a specific time
    SCLIST   Display NT Services
@@ -195,7 +230,9 @@ s
    SUBINACL Edit file and folder Permissions, Ownership and Domain
    SUBST    Associate a path with a drive letter
    SYSTEMINFO List system configuration
+```
 t
+```
    TASKLIST List running applications and services
    TASKKILL Remove a running process from memory
    TIME     Display or set the system time•
@@ -207,13 +244,19 @@ t
    TREE     Graphical display of folder structure
    TYPE     Display the contents of a text file•
    TypePerf Write performance data to a log file
+```
 u
+```
    USRSTAT  List domain usernames and last login
+```
 v
+```
    VER      Display version information•
    VERIFY   Verify that files have been saved•
    VOL      Display a disk label•
+```
 w
+```
    WHERE    Locate and display files in a directory tree
    WHOAMI   Output the current UserName and domain
    WINDIFF  Compare the contents of two files or sets of files
@@ -222,8 +265,11 @@ w
    WINRM    Windows Remote Management
    WINRS    Windows Remote Shell
    WMIC     WMI Commands
+```
 x
+```
    XCACLS   Change file and folder permissions
    XCOPY    Copy files and folders
    ::       Comment / Remark•
 
+```
