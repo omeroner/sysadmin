@@ -1,4 +1,3 @@
-```powershell
 a  
    ADDUSERS Add or list users to/from a CSV file
    ARP      Address Resolution Protocol
@@ -227,4 +226,4 @@ x
    XCACLS   Change file and folder permissions
    XCOPY    Copy files and folders
    ::       Comment / Remark•
-```
+
