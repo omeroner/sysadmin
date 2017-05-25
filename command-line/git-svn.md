@@ -72,10 +72,17 @@ svn revert *
 
 ### GIT
 
-`git config - -global user.name “isim,soyisim”` 
-`git config - -global user.email “email adresi”`
+Global seviyede kullanıcı bilgilerini belirlemek için
+```sh
+git config - -global user.name “isim,soyisim”
+```
+```sh
+git config - -global user.email “email adresi”
+```
 
 Global seviyede tüm ayarları listelemek için
-`git config --global -l`
+```sh
+git config --global -l
+```
 
 
