@@ -68,6 +68,14 @@ svn move  <dosyaadi> <değişendosyaadı>
 svn revert * 
 ```
 
+****
 
+### GIT
+
+`git config - -global user.name “isim,soyisim”` 
+`git config - -global user.email “email adresi”`
+
+Global seviyede tüm ayarları listelemek için
+`git config --global -l`
 
 
