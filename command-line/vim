@@ -270,7 +270,28 @@ gT         önceki tab'a git
 * vim'i açarken komut çalıştırma
 (Terminal veya konsoldan)
 vim +komut1 +komut2 ... +komutN dosya_adi
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+      
+* add comment/uncomment multiple lines 
+      
+   1- ilk olarak esc ile command mode'dan çıkıyoruz.
+   2- Ctrl+V ile visual mode'a geçiyoruz.
+   3- ok tuşları veya j/k tuşları ile çalışcağımız satırları seçiyoruz.
+   4- I tulu ile intsert moda  geçiyoruz.
+   5- insert moda'a geçtikten sonra # comment ekliyoruz.esc ile command mode'dan çıkıyoruz.
+   
+   diğer bir yöntem ise vim içersinde :%s/^/# çalıştırmak.
+   
+* delete comment/uncomment multiple lines   
+   
+    1- ilk olarak esc ile command mode'dan çıkıyoruz.
+    2- Ctrl+V ile visual mode'a geçiyoruz.
+    3- ok tuşları veya j/k tuşları ile çalışcağımız satırları seçiyoruz.
+    4- x tuşu ile seçili satırları siliyoruz.
+    
+   
+      
+      
+      
 * faydalı linkler
 http://bullium.com/support/vim.html
 http://www.rayninfo.co.uk/vimtips.html
