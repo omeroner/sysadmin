@@ -1,5 +1,52 @@
+http://docs.ansible.com/ansible/
+http://docs.ansible.com/ansible/playbooks_best_practices.html
+
+
+OS X Kurulumu
+
 sudo easy_install pip
-
 sudo pip install ansible
-
 ansible --version
+
+
+Ansible conf dosyası
+/etc/ansible/ansible.cfg
+yada
+~/.ansible.cfg
+
+
+Ansible hosts dosyası
+
+
+Default inventory dizini "/etc/ansible/hosts" budur spesifik bir dizin için ansible.conf dosyasına aşağıdaki gibi inventory dizinini belirtebiliriz;
+veya komut calistiriken -i ile belirtebilirsiniz .
+
+[defaults]
+inventory = /Users/omeroner/Project/magnet-scripts/ansible/hosts
+
+vim /etc/ansible/hosts 
+
+[web-servers]
+192.168.0.112
+192.168.0.113
+192.168.0.114
+
+[staging]
+139.59.170.69
+
+[production]
+139.59.170.70
+139.59.170.79
+
+[wordpress]
+139.59.170.69
+139.59.170.70
+139.59.170.79
+
+Remote Host test
+ ansible web-servers -m ping -u root
+ 
+Remote host komut çalıştırma
+ansible -m command -a "df -h" web-servers -u root
+ansible -m command -a "free -mt" web-servers -u root
+ansible -m command -a "df -h" web-servers > /tmp/df_outpur.txt
