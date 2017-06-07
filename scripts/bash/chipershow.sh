@@ -5,7 +5,7 @@
 
 # script use
 # OpenSSL requires the port number.
-# ./chipershow.sh chipershow.sh
+# ./chipershow.sh domainname
 
 DELAY=1
 ciphers=$(openssl ciphers 'ALL:eNULL' | sed -e 's/:/ /g')
