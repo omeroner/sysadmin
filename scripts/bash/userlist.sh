@@ -7,8 +7,6 @@ server='
 10.10.11.13
 '
 
-
-
 for host in $server
 do
 echo $host users list:
