@@ -1,0 +1,161 @@
+vim /etc/sysctl.conf
+
+########################################
+####   Performance Settings            #
+####   Omer Oner                       #
+########################################
+net.ipv4.tcp_syncookies = 0
+net.core.somaxconn = 12228
+net.core.netdev_max_backlog = 16384
+net.ipv4.tcp_max_syn_backlog = 8192
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_fin_timeout = 15
+
+#### Reuse sockets in the time-wait state.
+net.ipv4.tcp_tw_reuse = 1
+
+#### Enables the fast recycling function of TIME-WAIT sockets.
+net.ipv4.tcp_tw_recycle = 1
+
+#### Increase autotuning TCP buffer limits.
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.rmem_default = 16777216
+net.core.wmem_default = 16777216
+net.ipv4.tcp_rmem = 4096 87380 16777216
+net.ipv4.tcp_wmem = 4096 65536 16777216
+net.ipv4.tcp_keepalive_time = 3600
+#### Max Thread Count
+kernel.threads-max = 81919
+#### SCAP - Common Profile for General-Purpose Systems Server Baseline
+#### Dec 01, 2016
+#### Omer Oner
+net.ipv4.conf.default.send_redirects = 0
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.default.accept_redirects = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+net.ipv4.conf.all.send_redirects = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.secure_redirects = 0
+net.ipv4.conf.all.rp_filter = 1
+
+sysctl -p /etc/sysctl.conf
+
+vim /etc/security/limits.conf
+
+#######################################
+####   Dec 01, 2016                   #
+####   Omer Oner                      #
+#######################################
+## allow all users to open 100000 files
+## # alternatively, replace * with an explicit username
+* soft nofile 100000
+* hard nofile 100000
+
+
+
+
+// Alias
+vim ~/.bash_profile
+export PS1="[\u@\[\e[32;1m\]\h \[\e[0m\]\w]\$"
+export HISTTIMEFORMAT="%d/%m/%y %T "
+export EDITOR="/usr/bin/vim"
+
+// cat,more renklendirme
+yum -y install python-pip && pip install Pygmentize //kurulumu
+alias catc  ="pygmentize -g -O style=colorful,linenos=1"
+alias morec ="pygmentize -g -O style=colorful,linenos=1"
+alias lessc ="pygmentize -g -O style=colorful,linenos=1"
+
+alias ccat='pygmentize -g'
+And if you want line numbers:
+alias ccat='pygmentize -g -O style=colorful,linenos=1'
+
+
+// selinux disable
+vim /etc/selinux/config
+SELINUX=disabled
+
+// Startup
+
+chkconfig iptables off ; service iptables stop
+chkconfig ipv6tables off
+chkconfig ntpd on ; service ntpd start
+
+
+
+/History Limit 
+vim /etc/profile
+
+
+
+// Centos 7
+
+Configuring a Basic Firewall
+
+iptables -L
+# systemctl stop firewalld
+# systemctl disable firewalld
+# systemctl status firewalld
+iptables -L
+firewall-cmd --state
+
+Disable SELinux
+
+Vim /etc/selinux/config
+
+SELINUX=disabled
+
+
+Configure Timezones
+
+sudo timedatectl list-timezones
+sudo timedatectl set-timezone region/timezone
+sudo timedatectl set-timezone Europe/Istanbul
+sudo timedatectl
+
+Configure NTP Synchronization
+
+sudo yum install ntp
+sudo systemctl start ntpd
+sudo systemctl enable ntpd
+
+Configure DNS Server
+/etc/resolv.conf
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+
+#!/bin/bash
+# Centos 7 best practice
+
+echo "Service Configure"
+echo "================================"
+echo ""
+echo "show iptables "
+sudo /usr/sbin/iptables  -L
+sudo /usr/bin/systemctl stop firewalld
+sudo /usr/bin/systemctl disable firewalld
+sudo /usr/bin/systemctl status firewalld
+sudo /usr/sbin/iptables  -L
+/usr/bin/firewall-cmd --state
+echo ""
+echo "Disable SELinux"
+/usr/bin/sed -i s/SELINUX\=enforcing/SELINUX\=disabled/g /etc/selinux/config
+echo ""
+echo "Configure Timezones"
+#sudo timedatectl list-timezones
+#sudo timedatectl set-timezone region/timezone
+sudo timedatectl set-timezone Europe/Istanbul
+sudo timedatectl
+echo ""
+echo "Configure NTP Synchronization"
+sudo yum install ntp -y
+sudo /usr/bin/systemctl start ntpd
+sudo /usr/bin/systemctl enable ntpd
+echo ""
+echo "Configure DNS Server"
+echo "nameserver 8.8.8.8 " > /etc/resolv.conf
+
+systemctl list-unit-files
+chkconfig --list
