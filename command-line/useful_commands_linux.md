@@ -72,5 +72,8 @@ cheers
 quit
 ```
 
-
-
+### CURL
+Html'deki http(s) tüm linklerin listelenmesi ve curl ile sorgulanması
+```sh
+for i in `curl -s -L cnn.com |egrep --only-matching "http(s?):\/\/[^ \"\(\)\<\>]*" | uniq` ; do curl -s -I $i 2>/dev/null |head -n 1 | cut -d$' ' -f2; done
+```
