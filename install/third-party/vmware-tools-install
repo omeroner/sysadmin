@@ -1,0 +1,8 @@
+mount -r /dev/cdrom /mnt/
+cd /mnt
+cp VMwareTools-9.0.0-782409.tar.gz /root/
+cd
+umount -l /mnt/
+tar zxf VMwareTools-9.0.0-782409.tar.gz
+cd vamware-tools-distrib
+perl vmware-install.pl -d
