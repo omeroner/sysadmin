@@ -23,6 +23,12 @@ netstat -an | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' |
 echo -e '\E[37;44m'"\033[1m*********192.168.41.81 UPDATE OLAN DOSYALAR************\033[0m"
 ```
 
+kelimeyi tırnak içine alma
+```sh
+echo name,id,3 | awk '{print "\x22" $1 "\x22"}'
+"name,id,3”
+```
+
 
 ### Telnet
 apache check
