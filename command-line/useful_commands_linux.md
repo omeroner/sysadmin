@@ -82,7 +82,7 @@ for i in `curl -s -L cnn.com |egrep --only-matching "http(s?):\/\/[^ \"\(\)\<\>]
 ### MOUNT
 Qnap vol mount
 ```sh
-sudo mount -t cifs -o username=omeroner,password=PASSWORD //192.168.131.22/uzmantv /mmt/vol_uzmantv
+sudo mount -t cifs -o username=omeroner,password=PASSWORD //192.168.131.22/omeroner /mmt/vol_omeroner
 ```
 
 ### FIND
