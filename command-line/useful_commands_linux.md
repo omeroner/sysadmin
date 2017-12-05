@@ -86,3 +86,7 @@ sudo mount -t cifs -o username=omeroner,password=PASSWORD //192.168.131.22/omero
 ```
 
 ### FIND
+// 100 MB üzeri file bulma
+```sh
+find / -type f -size +10000k -exec ls -lh {} \;| awk '{ print $5 ": " $9 }'
+```
