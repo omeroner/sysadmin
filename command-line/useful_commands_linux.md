@@ -90,3 +90,8 @@ sudo mount -t cifs -o username=omeroner,password=PASSWORD //192.168.131.22/omero
 ```sh
 find / -type f -size +10000k -exec ls -lh {} \;| awk '{ print $5 ": " $9 }'
 ```
+
+Sıkıştırılmamış dosyaları bulup sıkıştırma
+```sh
+find .  -type f ! -name "*.gz" -exec gzip -v {} \;
+```
