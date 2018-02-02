@@ -2,7 +2,7 @@ var queryString = Math.random();
 var ss = SpreadsheetApp.getActiveSpreadsheet();
 // ======
 // !!!
-// ÖNEMLİ: Excel'de 'Kur' adında bir sekme oluşturun.  Verilerin yazılacağı yer burası olacak.
+// ÖNEMLİ: Excel'de 'Kripto' adında bir sekme oluşturun.  Verilerin yazılacağı yer burası olacak.
 // !!!
 // ======
 var ssRates = ss.getSheetByName('Kripto');
