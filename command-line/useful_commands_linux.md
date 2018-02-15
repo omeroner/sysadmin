@@ -95,3 +95,9 @@ Sıkıştırılmamış dosyaları bulup sıkıştırma
 ```sh
 find .  -type f ! -name "*.gz" -exec gzip -v {} \;
 ```
+
+### RSYNC
+1 sn arayla sürekli rsync
+```sh
+while /bin/true; do rsync -aSHv --progress /mnt/vols/ /mnt/vols_new; sleep 1; done
+```
