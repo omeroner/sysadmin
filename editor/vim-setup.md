@@ -35,6 +35,7 @@ https://github.com/omeroner/sysadmin/blob/master/configs/.vimrc
 
 
 https://gist.github.com/ralavay/c4c7750795ccfd72c2db
+http://vimcolors.com/?page=2
 
 vim-nginx-conf-highlight.sh
 
