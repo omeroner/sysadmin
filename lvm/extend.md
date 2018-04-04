@@ -303,6 +303,10 @@ old desc_blocks = 1, new_desc_blocks = 5
 Performing an on-line resize of /dev/vg_magnet/lv_root to 18981888 (4k) blocks.
 The filesystem on /dev/vg_magnet/lv_root is now 18981888 blocks long.
 ```
+## — centos 7 resize işlemi yapalım. xfs
+```sh
+xfs_growfs /dev/vg_magnet/lv_root
+```
 ## — kontrol
 ```sh
 [root@datingslave6 ~]$df -h
