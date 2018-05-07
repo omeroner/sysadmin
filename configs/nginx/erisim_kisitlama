@@ -1,0 +1,10 @@
+location = /wp-login.php {
+         allow 192.168.128.0/19;
+         allow  192.168.135.0/24;
+         allow 212.156.51.102/32;
+         deny all;
+         include fastcgi_params;
+         fastcgi_index index.php;
+         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+         fastcgi_pass unix:/var/run/php-fpm/php-fpm.sock;
+         }
