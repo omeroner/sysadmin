@@ -1,4 +1,4 @@
-<span class="pl-c">#</span> Lütfen MySQL şifrelerini sıfırlamak istediğinizi onaylayın
+#Lütfen MySQL şifrelerini sıfırlamak istediğinizi onaylayın
 CONFIRM="n"
 echo -n "Please confirm MySQL password reset. Continue? (y/N): "
 read -n 1 CONFIRM_INPUT
