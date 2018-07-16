@@ -101,3 +101,10 @@ find .  -type f ! -name "*.gz" -exec gzip -v {} \;
 ```sh
 while /bin/true; do rsync -aSHv --progress /mnt/vols/ /mnt/vols_new; sleep 1; done
 ```
+
+### OPENSSL
+Sertifika istek dosyası CSR oluşturma
+```sh
+openssl req -new -newkey rsa:2048 -nodes -out www_onkatec_com.csr -keyout www_onkatec_com.key -subj "/C=TR/ST=Atasehir/L=Istanbul/O=Onkatec/OU=E-Ticaret/CN=www.onkatec.com"
+```
+
