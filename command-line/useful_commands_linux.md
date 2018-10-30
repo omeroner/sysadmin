@@ -43,7 +43,7 @@ telnet localhost 80 [enter]
 HEAD /HTTP/1.0 [enter] [enter]
 ```
 
-Mail Send 
+### MAIL SEND ON CONSOLE 
 ```sh
 $ telnet mail.syslnx.net 25
 ```
@@ -107,4 +107,9 @@ Sertifika istek dosyası CSR oluşturma
 ```sh
 openssl req -new -newkey rsa:2048 -nodes -out www_onkatec_com.csr -keyout www_onkatec_com.key -subj "/C=TR/ST=Atasehir/L=Istanbul/O=Onkatec/OU=E-Ticaret/CN=www.onkatec.com"
 ```
+### SPEED TEST INTERNET
+```sh
+curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
+```
+
 
