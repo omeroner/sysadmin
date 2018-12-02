@@ -1,3 +1,104 @@
+1) Sistemi güncel tut
+
+# yum update -y
+# yum check-update
+
+2) Fiziksel Sistem Güvenliği
+
+Linux sunucularını fiziksel konsol erişimini korumalısınız. BIOS'ta CD / DVD, Harici Aygıtlar, 
+Disket Sürücüden önyüklemeyi devre dışı bırakmak için BIOS'u yapılandırın. VM ise floppy ve CD device'lardan silinmeli. 
+
+3) FTP, Telnet ve Rlogin / Rsh Hizmetlerini Kullanmaktan Kaçının
+
+Dosyaları aktarmak için, Scp, sftp vb. güvenli servisleri kullanın ve ftp, telnet vb. gibi diğer servisleri silin.
+
+# yum erase xinetd ypserv tftp-server telnet-server rsh-server
+
+4) Gereksiz paketleri silin Güvenlik Açığını En Aza İndirecek Yazılımları silin.
+Güvenlik açığını en aza indirmek için gereksiz paketi silmek önemlidir.
+
+# yum list installed
+# yum list packageName
+# yum remove packageName
+
+5) Sunucudan İstenmeyen Servisleri Devre Dışı Bırakma
+Gereksiz tüm hizmetleri ve hizmetleri (arka planda çalışan hizmetler) devre dışı bırakın.
+
+# chkconfig –list | grep ’3:on’
+# service serviceName stop
+# chkconfig serviceName off
+
+# systemctl list-unit-files --type=service | grep enabled
+# systemctl stop serviceName
+# systemctl disable serviceName
+
+6) Dinlenen Ağ Bağlantı Noktalarını Kontrol Etme
+'Netstat' ağ komutu yardımı ile tüm açık portları ve ilgili programları görüntüleyebilirsiniz.
+Yukarıda belirttiğim gibi, sistemden tüm istenmeyen ağ hizmetlerini devre dışı bırakmak için 
+'chkconfig' komutunu kullanın.
+
+# netstat -tulpn
+veya
+$ ss -tulpn
+veya
+nmap -sT -O localhost
+nmap -sT -O server.example.com
+
+7)IPv6'yı kapatın.
+
+# ifconfig -a | grep inet6
+# vi /etc/sysctl.conf
+
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+
+sysctl -p  /etc/sysctl.conf
+
+# ifconfig -a | grep inet6
+
+veya
+
+# vi /etc/sysconfig/network
+
+NETWORKING_IPV6=no
+IPV6INIT=no
+
+8) ICMP veya Broadcast isteklerini engellemek.
+Ping veya yayın isteğini yok saymak için “/etc/sysctl.conf” dosyasına aşağıdaki satırı ekleyin.
+
+ICMP isteğini göz ardı et:
+
+net.ipv4.icmp_echo_ignore_all = 1
+
+Yayın talebini yoksay:
+
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+
+Aşağıdaki komutu çalıştırarak yeni ayarları veya değişiklikleri yükleyin.
+
+# sysctl -p
+
+9) Boş Şifreler için Hesapları Kontrol Etme
+Tüm hesapların güçlü şifrelere sahip olduğundan ve hiç kimsenin yetkili erişimine sahip olmadığından emin olmalısınız. Boş parola hesapları, güvenlik riskleridir ve kolayca kesilebilir.
+
+# cat /etc/shadow | awk -F: '($2==""){print $1}'
+
+10) Daha Güçlü Şifreleri Zorlamak
+
+# vi /etc/pam.d/system-auth
+
+#password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
+password    required      pam_cracklib.so minlen=8 lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1 try_first_pass retry=3 difok=3
+
+
+
+
+
+
+
+
+
+
 vim /etc/sysctl.conf
 
 ########################################
@@ -39,6 +140,12 @@ net.ipv4.conf.all.send_redirects = 0
 net.ipv4.conf.all.accept_redirects = 0
 net.ipv4.conf.all.secure_redirects = 0
 net.ipv4.conf.all.rp_filter = 1
+
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1 #default yerine network card adıda yazılabilir.
+
+net.ipv4.icmp_echo_ignore_all = 1
+net.ipv4.icmp_echo_ignore_broadcasts = 1
 
 sysctl -p /etc/sysctl.conf
 
