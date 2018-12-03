@@ -3,6 +3,49 @@
 # yum update -y
 # yum check-update
 
+
+2) Hostname tanımlaması yap.
+
+# hostname -f
+
+3) Timezone kontrol'ü yap.
+
+# yum install ntp
+# timedatectl
+# timedatectl list-timezones
+# timedatectl set-timezone Europe/Istanbul
+# systemctl enable ntpd
+# systemctl start ntpd
+# ntpstat 
+ or 
+# date
+# vi /etc/ntp.conf
+
+kendinize ait ntp server bilgilerini config dosyasında düzenleyebiliriz.
+
+# ntpdate -q ntp_server_hostname_1
+
+-------
+server ntp_server_hostname_1 iburst
+server ntp_server_hostname_2 iburst
+server ntp_server_hostname_3 iburst
+server ntp_server_hostname_4 iburst
+server ntp_server_hostname_5 iburst
+-------
+
+
+4) selinux kullanılmıyacak ise disable edilmesi.
+
+# vim /etc/selinux/config
+SELINUX=disabled
+
+# sestatus
+or
+# getenforce
+
+
+
+
 2) Fiziksel Sistem Güvenliği
 
 Linux sunucularını fiziksel konsol erişimini korumalısınız. BIOS'ta CD / DVD, Harici Aygıtlar, 
@@ -16,6 +59,11 @@ Dosyaları aktarmak için, Scp, sftp vb. güvenli servisleri kullanın ve ftp, t
 
 4) Gereksiz paketleri silin Güvenlik Açığını En Aza İndirecek Yazılımları silin.
 Güvenlik açığını en aza indirmek için gereksiz paketi silmek önemlidir.
+
+# rpm -qa
+# yum list installed >> installed.txt
+# yum remove package_name
+
 
 # yum list installed
 # yum list packageName
@@ -39,10 +87,10 @@ Yukarıda belirttiğim gibi, sistemden tüm istenmeyen ağ hizmetlerini devre d�
 
 # netstat -tulpn
 veya
-$ ss -tulpn
+# ss -tulpn
 veya
-nmap -sT -O localhost
-nmap -sT -O server.example.com
+# nmap -sT -O localhost
+# nmap -sT -O server.example.com
 
 7)IPv6'yı kapatın.
 
@@ -52,7 +100,7 @@ nmap -sT -O server.example.com
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.default.disable_ipv6 = 1
 
-sysctl -p  /etc/sysctl.conf
+# sysctl -p  /etc/sysctl.conf
 
 # ifconfig -a | grep inet6
 
