@@ -3,10 +3,39 @@
 # yum update -y
 # yum check-update
 
+Yükseltme işlemi tamamlandıktan sonra, disk alanını serbest bırakmak için, aşağıdaki komutu çalıştırarak
+tüm önbelleğe alınmış depo bilgileriyle birlikte yükseltme işleminde kullanılan tüm indirilen paketleri kaldırabilirsiniz.
+
+# yum clean all
 
 2) Hostname tanımlaması yap.
+CentOS 7 , ağ yapılandırma dosyasını elle düzenlemeden ip , ifconfig , nmtui , nmcli veya route 
+gibi komutları kullanarak ağ yapılandırmak ve yönetmek için kullanılabilecek çok çeşitli araçlara sahiptir .
+
+Yeni başlayanların ağ yapılandırmalarını yönetmek ve değiştirmek için kullanabileceği en kolay program, 
+nmtui grafik komut satırıdır.
+
+Nmtui programı üzerinden sistem ana bilgisayar adını değiştirmek için , nmtui-hostname komutunu çalıştırın ,
+makine ana bilgisayar adını ayarlayın ve aşağıdaki ekran görüntüsünde gösterildiği gibi bitirmek için OK tuşuna basın .
 
 # hostname -f
+# nmtui-hostname
+
+Bir ağ arayüzünü değiştirmek için, nmtui-edit komutunu çalıştırın, düzenlemek istediğiniz arayüzü seçin 
+ve aşağıdaki ekran görüntüsünde gösterildiği gibi, sağ menüden düzenleme yapın .
+# nmtui-edit
+
+Ağ arayüzü ayarlarını görüntülemek için, arayüz dosyasının içeriğini inceleyebilir veya aşağıdaki komutları verebilirsiniz.
+
+# ifconfig enp0s3
+# ip a
+# ping -c2 google.com
+
+Hız, bağlantı durumu veya makine ağ arayüzleri hakkında bilgi 
+elde etmek için kullanılabilecek diğer yararlı araçlar ettool aracıdır .
+
+# ethtool enp0s3
+
 
 3) Timezone kontrol'ü yap.
 
@@ -43,7 +72,34 @@ SELINUX=disabled
 or
 # getenforce
 
+5) iptables disable
 
+# iptables -L
+# systemctl stop firewalld
+# systemctl disable firewalld
+# systemctl status firewalld
+# iptables -L
+# firewall-cmd --state
+
+# yum install firewalld
+# systemctl start firewalld.service
+# systemctl enable firewalld.service
+# firewall-cmd --list-all
+
+6) Sistem Yardımcı Programlarını Yükleme
+Aşağıdaki yardımcı programlar, günlük sistem yönetimi için yararlı olabileceğini kanıtlayabilir: 
+nano ( vi editörünü değiştirecek metin editörü ), wget , curl
+(çoğunlukla ağ üzerinden paketlerin yüklenmesi için kullanılan yardımcı programlar) net-tools , 
+lsof (yönetim için yardımcı programlar) yerel ağ) ve bash-tamamlama (komut satırı otomatik tamamlama).
+
+Aşağıdaki komutu çalıştırarak hepsini tek çekimde yükleyin.
+# yum install vim wget curl net-tools lsof bash-completion
+
+
+6) ssh default port değiştirme
+# vi /etc/ssh/sshd_config
+
+Port 2257 satırı eklenmeli.
 
 
 2) Fiziksel Sistem Güvenliği
@@ -68,6 +124,40 @@ Güvenlik açığını en aza indirmek için gereksiz paketi silmek önemlidir.
 # yum list installed
 # yum list packageName
 # yum remove packageName
+
+CentOS 7 , systemctl yardımcı programı üzerinden servis veya servisi yönetir . 
+Tüm hizmetler durumunu listelemek için aşağıdaki komutu verin.
+
+# systemctl list-units
+
+Sistem başlatıldığında otomatik olarak başlatılacak bir daemon veya servisin 
+kontrol edilip edilmediğini kontrol etmek için aşağıdaki komutu verin.
+
+# systemctl list-unit-files -t service
+
+Yukarıdaki komutları çalıştırarak sistemde hangi hizmetlerin çalıştığını listelemek ve sisteminize
+yönelik saldırı vektörlerini azaltmak için bunları devre dışı bırakmak ve kaldırmak için CentOS 7'yi 
+yükledikten sonra önerilir .
+
+Örneğin, Postfix arka planı , CentOS 7'de varsayılan olarak yüklenir ve etkinleştirilir. Sisteminiz bir 
+posta sunucusu çalıştırmayı gerektirmiyorsa, 
+aşağıdaki komutları vererek postfix hizmetini durdurmak, devre dışı bırakmak ve kaldırmak en iyisidir.
+
+# systemctl stop postfix
+# systemctl disable postfix
+# yum remove postfix
+
+Netstat , ss , lsof veya systemctl komutlarına ek olarak , sisteminizde hangi istenmeyen 
+hizmetlerin çalıştığını bulup tanımlamak ve bunları devre dışı bırakmak veya kaldırmak için ps , 
+top veya pstree komutları da çalıştırabilirsiniz .
+
+Varsayılan olarak, pstree yardımcı programı CentOS 7'de yüklü değildir. Yüklemek için aşağıdaki komutu yürütün.
+
+
+
+# yum install psmisc
+# pstree -p
+
 
 5) Sunucudan İstenmeyen Servisleri Devre Dışı Bırakma
 Gereksiz tüm hizmetleri ve hizmetleri (arka planda çalışan hizmetler) devre dışı bırakın.
@@ -110,6 +200,71 @@ veya
 
 NETWORKING_IPV6=no
 IPV6INIT=no
+
+IPv6'yı devre dışı bıraktıktan sonra SSH ile sorun yaşarsanız, aşağıdakileri yapın.
+
+/etc/ssh/sshd_config dosyasını düzenleyin,
+
+# vi /etc/ssh/sshd_config
+
+#AddressFamily any
+satırını:
+AddressFamily inet
+or,
+
+alttaki satırı commnetout:
+
+#ListenAddress 0.0.0.0
+
+sonrasında servisi yeniden başlatın.
+
+# systemctl restart sshd
+
+
+For ipv4 & ipv6 (default)
+AddressFamily any
+
+For ipv4 only
+AddressFamily inet
+
+For ipv6 only
+AddressFamily inet6
+
+
+7) Kullanıcı Hesaplarında Sudo İzinlerini Etkinleştir
+Normal bir kullanıcı için root izinleri verebilmek için, önce adduser komutunu yayınlayarak kullanıcıyı yaratın, 
+kullanıcı için şifreyi ayarlayın 
+ve kullanıcıya yeni kullanıcıya yönetici çarkı grubuna ekleyen aşağıdaki komutu uygulayarak root izinleri verin.
+# adduser username
+# passwd username
+# usermod -aG wheel username
+
+
+8) CentOS 7'de SSH Genel Anahtar Kimlik Doğrulamasını Yapılandırma
+Sunucunuzun SSH'sini güvenceye almak ve sunucunuzun güvenliğini artırmak için özel bir 
+SSH anahtarıyla sunucunuzun güvenliğini arttırmak amacıyla, ilk önce aşağıdaki komutla bir SSH Anahtar Çifti oluşturun.
+
+Sunucu yönetimini SSH aracılığıyla otomatikleştirmek istediğinizde bir parola girmeyin.
+
+# ssh-keygen -t RSA
+SSH anahtar çiftleri oluşturulduktan sonra, anahtarı bağlamak istediğiniz sunucuyu aşağıdaki
+komutu vererek kopyalayın. İlk olarak, ortak anahtarı kopyalamak için size uzak SSH kullanıcı şifresini girin.
+
+# ssh-copy-id remote_user@SSH_SERVER_IP
+SSH ortak anahtarı uzak sunucuya kopyalandıktan sonra, aşağıdaki komutla uzak SSH sunucusuna giriş yapın.
+
+# ssh remote_user@SSH_SERVER_IP
+Son olarak, SSH sunucusunu güvence altına almak için, yapılandırma SSH dosyasını açarak kök hesabına
+uzaktan SSH erişimini izin vermemek emin olun / etc / ssh / sshd_config root olarak metin editörü ile ve
+onu değiştirmek Yesiçin No.
+
+PermitRootLogin no
+Ayarı uygulamak için SSH servisini yeniden başlatmanız ve yeni yapılandırmayı kullanmanız gerekir.
+
+# systemctl restart sshd
+
+
+
 
 8) ICMP veya Broadcast isteklerini engellemek.
 Ping veya yayın isteğini yok saymak için “/etc/sysctl.conf” dosyasına aşağıdaki satırı ekleyin.
