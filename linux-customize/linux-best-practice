@@ -264,6 +264,10 @@ Ayarı uygulamak için SSH servisini yeniden başlatmanız ve yeni yapılandırm
 # systemctl restart sshd
 
 
+9)parola olmayan user'ların kontrolü.
+# awk -F: '($2 == "") {print}' /etc/shadow
+
+
 
 
 8) ICMP veya Broadcast isteklerini engellemek.
@@ -286,14 +290,142 @@ Tüm hesapların güçlü şifrelere sahip olduğundan ve hiç kimsenin yetkili 
 
 # cat /etc/shadow | awk -F: '($2==""){print $1}'
 
-10) Daha Güçlü Şifreleri Zorlamak
+10) Daha Güçlü Şifreleri Zorlamak Set password rules
+
+
+Şifre Politikası Hakkında
+Parola ilkesi, bir sistem kullanıcısı bir parola belirlediğinde yerine getirilmesi gereken bir kural kümesidir. Parola ilkesi, bilgisayar güvenliği açısından önemli bir faktördür çünkü kullanıcı parolaları genellikle bilgisayar sistemi güvenlik ihlali için ana nedendir. Bu nedenle çoğu şirket ve kuruluş şifre kurallarını şirket resmi düzenlemelerine dahil etmektedir. Tüm kullanıcılar ve kullanıcı şifreleri resmi şirket şifre politikasına uymalıdır.
+
+Şifre politikası genellikle şunları tanımlar:
+
+Şifre yaşlanma
+Şifre uzunluğu
+Şifre Karmaşıklığı
+Giriş Başarısız Sayısı
+Reddetmek için Yeniden Kullanılan Şifre Sayısı
+
+Adım 1: /etc/login.defs Yapılandırılıyor - Yaşlanma ve Uzunluk
+Şifre yaşlanma kontrolleri ve şifre uzunluğu /etc/login.defs dosyasında tanımlanmıştır. Şifre yaşlandırma, en fazla sayıda gün şifresi kullanılabileceği, şifre değişiklikleri arasında izin verilen minimum gün sayısı ve şifrenin süresi dolmadan önce uyarı günlerinin sayısı anlamına gelir. Şifre uzunluğu, şifrenin izin vermesi için gereken karakter sayısını ifade eder. Şifre yaşlanma kontrollerini ve şifre uzunluğunu yapılandırmak için /etc/login.defs dosyasını düzenleyin ve PASS değerlerini şirketinizin şifre politikasına göre ayarlayın.
+
+Şifre yaşlanma kontrolleri ve şifre uzunluğu mevcut kullanıcıları etkilemez, sadece yeni oluşturulan kullanıcıları etkiler!
+
+PASS_MAX_DAYS - Bir şifre kullanılabilecek maksimum gün sayısı.
+PASS_MIN_DAYS - Şifre değişiklikleri arasında izin verilen minimum gün sayısı.
+PASS_MIN_LEN - Kabul edilebilir minimum şifre uzunluğu.
+PASS_WARN_AGE - Bir şifre dolmadan önce verilen gün sayısı uyarısı.
+
+
+vim /etc/login.defs
+# Şifre yaşlanma kontrolleri:
+#
+# PASS_MAX_DAYS Bir şifre kullanılabilecek maksimum gün sayısı.
+# PASS_MIN_DAYS Şifre değişiklikleri arasında izin verilen minimum gün sayısı.
+# PASS_MIN_LEN Minimum kabul edilebilir şifre uzunluğu.
+# PASS_WARN_AGE Parola süresi dolmadan önce verilen gün sayısı uyarısı.
+#
+PASS_MAX_DAYS 90
+PASS_MIN_DAYS 2
+PASS_MIN_LEN 9
+PASS_WARN_AGE 14
+
+
+Adım 2: /etc/pam.d/system-auth - Karmaşıklık ve Yeniden Kullanılan Parolaları Yapılandırma
+/Etc/pam.d/system-auth yapılandırma dosyasını düzenleyerek, reddetmek için parola karmaşıklığını ve yeniden kullanılan parola sayısını yapılandırabiliriz. Parola karmaşıklığı, parolada kullanılan karakterlerin karmaşıklığına ve yeniden kullanılan parolaların sayısına atıfta bulunarak, kullanıcının geçmişte kullandığı istenen parola sayısını reddetmesini ifade eder. Parola karmaşıklığını ayarlayarak, bir kullanıcıyı istenen sayıda büyük harf, küçük harf karakterleri, sayılar ve semboller kullanarak şifrelemeye zorlayabiliriz. 
+
+Şifre karmaşıklık standartları karşılanmazsa, şifre sistem tarafından kabul edilmeyecektir.
+
+Şifrelerde Sermaye Karakterlerini Zorlama - ucredit = -X, burada X şifre için gereken büyük harf sayısıdır
+Şifrelerde Küçük Harf Karakterlerini Zorla - lcredit = -X, burada X şifre için gerekli küçük harf karakterlerinin sayısıdır
+Parolalarda Sayıları Zorlama - dcredit = -X, burada X şifre için gereken sayıdır
+Şifrelerde Sembollerin Kullanımını Zorlama - ocredit = -X, burada X şifre için gereken sembollerin sayısıdır
+
+password requisite pam_cracklib.so try_first_pass retry=3 type= ucredit=-2 lcredit=-2 dcredit=-2 ocredit=-2
+
+Yeniden Kullanılan Parolaları Reddet - remember= = X, burada X, inkar etmek için geçmiş parolaların sayısıdır.
+
+password sufficient pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
+
+
+ornek pam dosyası
+
+#%PAM-1.0
+# This file is auto-generated.
+# User changes will be destroyed the next time authconfig is run.
+auth required pam_env.so
+auth sufficient pam_unix.so nullok try_first_pass
+auth requisite pam_succeed_if.so uid >= 500 quiet
+auth required pam_deny.so
+
+account required pam_unix.so
+account sufficient pam_localuser.so
+account sufficient pam_succeed_if.so uid < 500 quiet
+account required pam_permit.so
+
+password requisite pam_cracklib.so try_first_pass retry=3 type= dcredit=-2 ucredit=-2 lcredit=-2 ocredit=-2
+password sufficient pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5
+password required pam_deny.so
+
+session optional pam_keyinit.so revoke
+session required pam_limits.so
+session [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
+session required pam_unix.so
+
+3. Adım: /etc/pam.d/password-auth - Giriş Hatalarını Yapılandırma
+Giriş başarısızlıklarının sayısı /etc/pam.d/password-auth dosyasında ayarlanır.
+Giriş başarısızlıklarının sayısı, kullanıcının hesabının kilitlenmesinden önce yapabileceği başarısız girişlerin sayısını 
+ifade eder. Hesap kilitlendiğinde, bir sistem yöneticisi hesabı açabilir. Giriş hataları sayısını yapılandırmak için, 
+/etc/pam.d/password-auth dosyasına iki yeni satır eklenmelidir. "Deny = X" parametresi 
+(burada X, oturum açma başarısızlıklarının sayısıdır) 
+hesap kilitlenmeden önce izin verilen oturum açma başarısızlıklarının sayısını yapılandırır.
+
+auth required pam_tally2.so deny=3
+account required pam_tally2.so
+
+Kullanıcı Hesaplarını Kilitleme ve Kilidini Açma
+vim /etc/pam.d/password-auth
+auth        required      pam_tally2.so  file=/var/log/tallylog deny=3 even_deny_root unlock_time=1200
+account     required      pam_tally2.so
+
+file = / var / log / tallylog - Varsayılan günlük dosyası giriş sayımlarını tutmak için kullanılır.
+deny = 3 - 3 denemeden sonra erişimi engelle ve kullanıcıyı kilitle.
+even_deny_root - Politika ayrıca kök kullanıcı için de geçerlidir .
+unlock_time = 1200 - Hesap 20 dakikaya kadar kilitlenir . (manuel olarak kilidi açana kadar kalıcı olarak kilitlemek istiyorsanız bu parametreleri kaldırın.)
+
+# pam_tally2 --user=tecmint
+# pam_tally2 --user=tecmint --reset
+# pam_tally2 --user=tecmint
+
+$ man pam_tally
+$ man tally
+$ man faillog
+
+
+
+
+# cd /etc/pam.d/
 
 # vi /etc/pam.d/system-auth
 
 #password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
 password    required      pam_cracklib.so minlen=8 lcredit=-1 ucredit=-1 dcredit=-1 ocredit=-1 try_first_pass retry=3 difok=3
 
+Şifre Politikalarını Yapılandırma
+Pwquality dosyasındaki girişler aşağıdaki örnekleri içerebilir:
 
+difok = 3 Mevcut şifre ile kıyaslandığında yeni bir şifre ile en az 3 farklı karaktere ihtiyacımız olduğunu söyledik.
+minlen = 8 En az 8 karakterden oluşan bir şifre uzunluğuna ihtiyacımız var
+ucredit = -1 En az 1 büyük harf gerektirdiğimiz yer
+lcredit = -1 En az 1 küçük harf gerektiren yere ihtiyacımız var
+dcredit = -1 En az 1 sayıya ihtiyacımız var
+ocredit = -1 En az 1 alfasayısal olmayan karaktere ihtiyaç duyduğumuz yer
+minclass = 2 En az 2 sınıfa veya karaktere ihtiyaç duyduğumuz durumlar:) üst, alt, rakam ve diğer)
+maxrepeat = 3 Oluşumları olan şifreleri reddettiğimiz yerde 4 veya daha fazla tekrar eden karakter var.
+maxclassrepeat = 2 Aynı sınıfın 3 veya daha fazla ardışık karakterine sahip şifreleri reddettiğimiz yer
+
+parola sağlamlığı testi için;
+# pwscore
+Pqazx.123'!
+67
 
 
 
