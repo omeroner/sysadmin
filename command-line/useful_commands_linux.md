@@ -1,3 +1,12 @@
+### EXTENSION CHANGE
+```sh
+for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
+```
+
+### JPEG COMPRESS
+```sh
+mogrify -strip -interlace Plane -sampling-factor 4:2:0 -quality 85% *.jpg
+```
 
 ### TOP / PS
 io yapan process'leri bulmak
