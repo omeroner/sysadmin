@@ -1,3 +1,8 @@
+### İNDEX LİSTELEME ELASTİCSERCH
+```sh
+curl http://localhost:9200/_cat/indices?pretty
+```
+
 ### EXTENSION CHANGE
 ```sh
 for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
