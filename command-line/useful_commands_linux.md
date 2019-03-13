@@ -12,6 +12,10 @@ for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
 ```sh
 mogrify -strip -interlace Plane -sampling-factor 4:2:0 -quality 85% *.jpg
 ```
+yükseklik en boy oranını koruyarak uygun şekilde ölçeklenir
+```sh
+mogrify -resize 960x528! *.png
+```
 
 ### TOP / PS
 io yapan process'leri bulmak
