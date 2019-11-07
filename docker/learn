@@ -1,4 +1,28 @@
 Local Makineye Kubernetes Cluster Kurulumu
   
 Minikube Kurulumu  
-  https://minikube.sigs.k8s.io/docs/start/
+https://minikube.sigs.k8s.io/docs/start/
+  
+Minikube için de bilgisayarınızda bir sanallaştırma yazılımı olması gerekiyor.
+macOS: VirtualBox or VMware Fusion, or HyperKit.
+Linux: VirtualBox or KVM.
+Windows: VirtualBox or Hyper-V.
+
+
+minikube version
+minikube start
+kubectl get nodes
+minikube dashboard --url
+
+
+Kind : Tür demek , yani kubernetese ne çeşit bir deployment yapacağımızı gösterir. Ben poda deployment yapacağım için kind’a pod yazdım.
+
+Name : Kuberneteste uygulamamıza vereceğimiz isim.
+
+Label : Label kubernetese yapacağımız deploymentlara bir çeşit tag atmak demek.
+
+Spec – Containers – Name : Ayağa kaldırılacak Containerın ismi
+
+Image :  Docker Hubdan veya lokal registeryden çekiceğimiz image’ın ismi
+
+Container Port :  Container’a verilen port. (Expose edilmediği sürece dışarıdan ulaşılamaz)
