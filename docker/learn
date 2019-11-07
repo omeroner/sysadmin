@@ -1,18 +1,76 @@
 Local Makineye Kubernetes Cluster Kurulumu
-  
-Minikube Kurulumu  
-https://minikube.sigs.k8s.io/docs/start/
-  
+
 Minikube için de bilgisayarınızda bir sanallaştırma yazılımı olması gerekiyor.
 macOS: VirtualBox or VMware Fusion, or HyperKit.
 Linux: VirtualBox or KVM.
 Windows: VirtualBox or Hyper-V.
+  
+Minikube Kurulumu  
+https://minikube.sigs.k8s.io/docs/start/
+  
+$minikube version
+$minikube start
 
 
-minikube version
-minikube start
-kubectl get nodes
-minikube dashboard --url
+kubectl komutumuzu kullanarak kubernetes cluster’ımızı yönetmeye başlayabiliriz.
+$kubectl get nodes
+$minikube dashboard --url   or minikube dashboard
+
+örnek pod oluşturalım.
+kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
+kubectl get deployments
+
+portu expose ediyoruz.
+$kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+Oluşturduğumuz service de expose portunu görebilmemiz için ;
+
+$kubectl get services
+NAME         TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+hello-node   LoadBalancer   10.102.193.122   <pending>     8080:31789/TCP   12s
+kubernetes   ClusterIP      10.96.0.1        <none>        443/TCP          29m
+
+VirtualBox üzerinde çalışan sanal makinemizin ipsini öğrendikten sonra 31789 portuna giderek Hello World çıktısını görebiliriz.
+
+Yada daha kolay bir şekilde; 
+
+$minikube service hello-node
+
+yazarak direk bizi çıktıya yönlendirir.
+
+|-----------|------------|-------------|-----------------------------|
+| NAMESPACE |    NAME    | TARGET PORT |             URL             |
+|-----------|------------|-------------|-----------------------------|
+| default   | hello-node |             | http://192.168.99.100:31789 |
+|-----------|------------|-------------|-----------------------------|
+🎉  Opening service default/hello-node in default browser...
+
+
+
+
+Bir örnek yaml dosyası ile pod yaratalım.
+
+vim pod.yaml (https://yamlchecker.com/)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: kuard
+    name: kuard
+    internalVersion: 0.0.2
+  name: kuard
+spec:
+  containers:
+  - image: gcr.io/kuar-demo/kuard-amd64:1
+    imagePullPolicy: IfNotPresent
+    name: kuard
+    ports:
+    - containerPort: 8080
+      name: http
+      protocol: TCP
+    resources: {}
+  dnsPolicy: ClusterFirst  restartPolicy:Never
 
 
 Kind : Tür demek , yani kubernetese ne çeşit bir deployment yapacağımızı gösterir. Ben poda deployment yapacağım için kind’a pod yazdım.
@@ -26,3 +84,28 @@ Spec – Containers – Name : Ayağa kaldırılacak Containerın ismi
 Image :  Docker Hubdan veya lokal registeryden çekiceğimiz image’ın ismi
 
 Container Port :  Container’a verilen port. (Expose edilmediği sürece dışarıdan ulaşılamaz)
+
+
+$kubectl get pod,svc -n kube-system
+
+NAME                                   READY   STATUS    RESTARTS   AGE
+pod/coredns-5644d7b6d9-849sc           1/1     Running   0          141m
+pod/coredns-5644d7b6d9-stngj           1/1     Running   0          141m
+pod/etcd-minikube                      1/1     Running   0          140m
+pod/kube-addon-manager-minikube        1/1     Running   0          141m
+pod/kube-apiserver-minikube            1/1     Running   0          140m
+pod/kube-controller-manager-minikube   1/1     Running   0          140m
+pod/kube-proxy-mzhdm                   1/1     Running   0          141m
+pod/kube-scheduler-minikube            1/1     Running   0          139m
+pod/storage-provisioner                1/1     Running   0          141m
+
+NAME               TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE
+service/kube-dns   ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   141m
+
+
+minikube addons list
+minikube addons enable metrics-server
+minikube addons enable heapster
+
+Daha sonra cluster’daki bütün podların CPU ve RAM kaynak tüketimleri için;
+ kubectl top pod --all-namespaces
