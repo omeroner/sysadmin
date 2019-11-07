@@ -1,0 +1,99 @@
+@daily test -x /usr/bin/certbot -a ! -d /run/systemd/system && perl -e 'sleep int(rand(3600))' && certbot -q renew --renew-hook='cat /etc/letsencrypt/live/<DOMAIN>/fullchain.pem /etc/letsencrypt/live/<DOMAIN>/privkey.pem > /etc/haproxy/omeroner.pem; systemctl restart haproxy
+
+
+certbot -q renew --renew-hook='cat /etc/letsencrypt/live/omeroner.com/fullchain.pem /etc/letsencrypt/live/omeroner.com/privkey.pem >  /etc/haproxy/certs/omeroner.com.pem; systemctl restart haproxy'
+
+
+
+certbot delete --cert-name omeroner.com
+
+
+
+$ 
+$ cd certbot-dns-cloudflare
+$ sudo python setup.py install
+
+sudo pip3 install certbot-dns-cloudflare
+
+/etc/letsencrypt/dnscloudflare.ini
+
+# CloudFlare API key information
+dns_cloudflare_api_key = blahblahblah44399342234bland
+dns_cloudflare_email = mylogin@example.com
+
+$ chmod 600 /etc/letsencrypt/dnscloudflare.ini
+
+
+sudo certbot certonly -d *.eigenmagic.com --dns-cloudflare
+
+
+
+
+
+ sudo apt install python-pip
+ sudo pip install certbot-dns-cloudflare
+
+ $ sudo /usr/local/bin/certbot certonly --dns-cloudflare --dns-cloudflare-credentials /root/.secrets/cloudflare.ini -d example.com,*.example.com --preferred-challenges dns-01
+
+
+14 5 * * * /usr/local/bin/certbot renew --quiet --post-hook "/usr/sbin/service nginx reload" > /dev/null 2>&1
+
+
+certbot certificates
+
+yum --enablerepo=epel -y install certbot
+certbot plugins
+
+
+yum install -y python-pip
+pip install --upgrade pip  //python -m pip uninstall pip
+pip install certbot-dns-cloudflare
+
+cat /etc/letsencrypt/cloudflare.ini
+   dns_cloudflare_email = onerromerr@gmail.com
+   dns_cloudflare_api_key = 93f0f4ee40605cf068679eba547a5834eb763
+chmod 0400 /etc/letsencrypt/cloudflare.ini
+
+certbot certonly --rsa-key-size 4096 --agree-tos --manual-public-ip-logging-ok --email="oner@lingapos.com" --server=https://acme-v02.api.letsencrypt.org/directory --dns-cloudflare --dns-cloudflare-credentials=/etc/letsencrypt/cloudflare.ini --domain="*.benseron.com"
+certbot certonly --rsa-key-size 4096 --agree-tos --manual-public-ip-logging-ok --email="oner@lingapos.com" --server=https://acme-v02.api.letsencrypt.org/directory --dns-cloudflare --dns-cloudflare-credentials=/etc/letsencrypt/cloudflare.ini --domain="*.upos.io"  --domain="upos.io"
+
+certbot renew --dry-run
+certbot renew --cert-name benseron.com
+certbot renew --cert-name omeroner.com --force-renew
+certbot certificates
+
+cat /etc/letsencrypt/live/upos.io/fullchain.pem /etc/letsencrypt/live/upos.io/privkey.pem > /etc/haproxy/certs/upos.io.pem
+
+service haproxy restart
+
+
+certbot delete --cert-name benseron.com
+
+
+30 2 * * * certbot -q renew --renew-hook='cat /etc/letsencrypt/live/omeroner.com/fullchain.pem /etc/letsencrypt/live/omeroner.com/privkey.pem > /etc/haproxy/certs/omeroner.com.pem; systemctl restart haproxy' >> /var/log/le-renewal.log
+30 2 * * * /usr/bin/certbot -q renew --renew-hook "/usr/local/bin/renew.sh" >> /var/log/le-renewal.log
+
+
+
+
+vim /usr/local/bin/renew.sh
+	
+	#!/bin/bash
+	
+	SITE=$(ls -l /etc/letsencrypt/live | egrep  '^d'| awk '{print $9 }')
+	
+	for SSL in $SITE
+	do
+	cat /etc/letsencrypt/live/$SSL/fullchain.pem /etc/letsencrypt/live/$SSL/privkey.pem > /etc/haproxy/certs/$SSL.pem
+	done
+	
+	service haproxy restart
+
+chmod +x /usr/local/bin/renew.sh
+
+
+*/1 * * * * /usr/bin/certbot  renew --renew-hook "/usr/local/bin/renew.sh" >> /var/log/le-renewal.log
+
+
+
+
