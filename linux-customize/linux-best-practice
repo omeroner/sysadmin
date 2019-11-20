@@ -601,3 +601,12 @@ echo "nameserver 8.8.8.8 " > /etc/resolv.conf
 
 systemctl list-unit-files
 chkconfig --list
+
+#timeout süresi
+
+vim /etc/sysctl.conf
+TCPKeepAlive no 
+ClientAliveInterval 30
+ClientAliveCountMax 240
+
+sudo systemctl restart sshd.service
