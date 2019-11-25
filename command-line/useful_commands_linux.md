@@ -133,5 +133,5 @@ curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.p
 ### MONGO USER CREATE
 ```sh
 use admin
-db.createUser({ user:"webapp", pwd: "PWCiBMHVTlypbxND", roles: [{role: "userAdminAnyDatabase", db: "admin"}] })
+db.createUser({ user:"USERNAME", pwd: "PASSWORD", roles: [{role: "userAdminAnyDatabase", db: "admin"}] })
 ```
