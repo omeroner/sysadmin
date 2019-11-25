@@ -130,4 +130,8 @@ openssl req -new -newkey rsa:2048 -nodes -out www_onkatec_com.csr -keyout www_on
 curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -
 ```
 
-
+### MONGO USER CREATE
+```sh
+use admin
+db.createUser({ user:"webapp", pwd: "PWCiBMHVTlypbxND", roles: [{role: "userAdminAnyDatabase", db: "admin"}] })
+```
