@@ -3,6 +3,14 @@
 curl http://localhost:9200/_cat/indices?pretty
 ```
 
+### GIT DOSYALARI SİLME
+```sh
+find . \( -name ".git" -o -name ".gitignore" -o -name ".gitmodules" -o -name ".gitattributes" \) -exec rm -rf -- {} +
+```
+```sh
+( find . -type d -name ".git" && find . -name ".gitignore" && find . -name ".gitmodules" ) | xargs rm -rf
+```
+
 ### EXTENSION CHANGE
 ```sh
 for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
