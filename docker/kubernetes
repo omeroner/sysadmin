@@ -1,0 +1,15 @@
+MINIKUBE KULLANIMI (VIRTUAL BOX OLMALI.)
+
+brew install minikube
+brew upgrade minikube
+minikube version
+minikube start
+
+
+kubectl get nodes
+
+
+
+
+
+helm install --name my-release stable/rabbitmq
