@@ -1,0 +1,67 @@
+
+  // SNAPSHOT GET
+
+  curl -s  --user "tgrwvelp:eae75877-68ec-488a-8d06-fe00a751fcaf"  --digest --include \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  --request GET "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaProduction/backup/snapshots?pretty=true" | grep id | awk 'NR==1{print $3}')
+
+
+  // SNAPSHOT RESTORE
+  curl --user "ympkuwdj:82368aa7-2278-48b7-b237-ceac2d6cb6f1"  --digest --include \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  --request POST "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaProduction/backup/restoreJobs" \
+  --data '
+    {
+      "snapshotId" : "5e05ba339ccf641c40066fe3",
+      "deliveryType" : "automated",
+      "targetClusterName" : "deneme",
+      "targetGroupId" : "581b1303df9db14751324279"
+    }
+  '
+
+  snapid=$(curl -s --user "tgrwvelp:eae75877-68ec-488a-8d06-fe00a751fcaf"  --digest --include \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  --request GET "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaStaging/backup/snapshots?pretty=true" | grep id | awk 'NR==1{print $3}')
+  
+  
+  
+  curl --user "tgrwvelp:eae75877-68ec-488a-8d06-fe00a751fcaf" --digest --include \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  --request POST "https://cloud.mongodb.com/api/atlas/v1.0/groups/5b6212af90dc76637950a2c6/clusters/MyCluster/backup/restoreJobs" \
+  --data '
+    {
+      "snapshotId" : "5b6211ff87d9d663c59d3feg",
+      "deliveryType" : "automated",
+      "targetClusterName" : "MyOtherCluster",
+      "targetGroupId" : "5b6212af90dc76637950a2c6"
+    }
+  '
+
+
+
+  curl --user "tgrwvelp:xxxxxxxxxxxxxxx" --digest --include --header "Accept:application/json" --header "Content-Type: application/json"   --request POST "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaStaging/backup/restoreJobs?pretty=true"
+
+ --data '
+    {
+      "snapshotId" : "5b6211ff87d9d663c59d3feg",
+      "deliveryType" : "automated",
+      "targetClusterName" : "deneme",
+      "targetGroupId" : "581b1303df9db14751324279"
+    }
+'
+
+
+
+
+
+  curl --user "tgrwvelp:eae75877-68ec-488a-8d06-fe00a751fcaf" --digest --include --header "Accept:application/json" --header "Content-Type: application/json"   --request GET "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaStaging/backup/snapshot?pretty=true"
+
+
+  curl --user "tgrwvelp:eae75877-68ec-488a-8d06-fe00a751fcaf"  --digest --include \
+  --header "Accept: application/json" \
+  --header "Content-Type: application/json" \
+  --request GET "https://cloud.mongodb.com/api/atlas/v1.0/groups/581b1303df9db14751324279/clusters/LingaStaging/backup/snapshots"
