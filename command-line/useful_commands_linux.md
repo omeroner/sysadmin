@@ -1,3 +1,9 @@
+
+### CERTBOT İLE SERTİFİKA OLUŞTURMA CF
+```sh
+certbot certonly --rsa-key-size 4096 --agree-tos --manual-public-ip-logging-ok --email="oner@onkatec.com" --server=https://acme-v02.api.letsencrypt.org/directory --dns-cloudflare --dns-cloudflare-credentials=/etc/letsencrypt/cloudflare2.ini --domain="*.DOMAİN.com"  --domain="DOMAİN.com"
+```
+
 ### MYSQL USER CREATE
 ```sh
 GRANT USAGE ON onkatec.* TO 'admin'@'%' IDENTIFIED BY 'password1';
