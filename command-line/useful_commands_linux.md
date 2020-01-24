@@ -1,3 +1,28 @@
+### MYSQL USER CREATE
+```sh
+GRANT USAGE ON onkatec.* TO 'admin'@'%' IDENTIFIED BY 'password1';
+GRANT ALL privileges ON *.* TO 'admin'@'%';
+SET GLOBAL validate_password_policy = 0
+```
+```sh
+mysql> SHOW VARIABLES LIKE 'validate_password%';
++--------------------------------------+--------+
+| Variable_name                        | Value  |
++--------------------------------------+--------+
+| validate_password_check_user_name    | OFF    |
+| validate_password_dictionary_file    |        |
+| validate_password_length             | 8      |
+| validate_password_mixed_case_count   | 1      |
+| validate_password_number_count       | 1      |
+| validate_password_policy             | MEDIUM |
+| validate_password_special_char_count | 1      |
++--------------------------------------+--------+
+
+mysql> SET GLOBAL validate_password_length = 6;
+mysql> SET GLOBAL validate_password_number_count = 0;
+mysql> SET GLOBAL validate_password.policy = LOW;
+```
+
 ### İNDEX LİSTELEME ELASTİCSERCH
 ```sh
 curl http://localhost:9200/_cat/indices?pretty
