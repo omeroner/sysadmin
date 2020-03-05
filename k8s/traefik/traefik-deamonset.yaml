@@ -1,0 +1,76 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: traefik17-ingress-controller
+  namespace: kube-system
+---
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: traefik17-ingress-controller
+  namespace: kube-system
+  labels:
+    k8s-app: traefik-ingress-lb
+spec:
+  selector:
+    matchLabels:
+      k8s-app: traefik-ingress-lb
+      name: traefik-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
+    spec:
+      serviceAccountName: traefik17-ingress-controller
+      terminationGracePeriodSeconds: 60
+      containers:
+        - image: traefik:1.7-alpine
+          name: traefik-ingress-lb
+          ports:
+            - name: http
+              containerPort: 80
+              hostPort: 80
+            - name: https
+              containerPort: 443
+              hostPort: 443
+            - name: admin
+              containerPort: 8080
+              hostPort: 8080
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_BIND_SERVICE
+          args:
+            - --api
+            - --accesslog
+            - --logLevel=INFO
+            - --kubernetes
+            - --defaultentrypoints=http,https
+            - --entrypoints=Name:https Address::443 TLS
+            - --entrypoints=Name:http Address::80
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: traefik17-ingress-service
+  namespace: kube-system
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "elb"
+spec:
+  type: LoadBalancer
+  selector:
+    k8s-app: traefik-ingress-lb
+  ports:
+    - protocol: TCP
+      port: 80
+      name: web
+    - protocol: TCP
+      port: 443
+      name: webs
+    - protocol: TCP
+      port: 8080
+      name: admin
