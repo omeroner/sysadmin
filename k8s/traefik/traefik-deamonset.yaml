@@ -11,23 +11,23 @@ metadata:
   name: traefik17-ingress-controller
   namespace: kube-system
   labels:
-    k8s-app: traefik-ingress-loadbalancer
+    k8s-app: traefik-ingress-lb
 spec:
   selector:
     matchLabels:
-      k8s-app: traefik-ingress-loadbalancer
-      name: traefik-ingress-loadbalancer
+      k8s-app: traefik-ingress-lb
+      name: traefik-ingress-lb
   template:
     metadata:
       labels:
-        k8s-app: traefik-ingress-loadbalancer
-        name: traefik-ingress-loadbalancer
+        k8s-app: traefik-ingress-lb
+        name: traefik-ingress-lb
     spec:
       serviceAccountName: traefik17-ingress-controller
       terminationGracePeriodSeconds: 60
       containers:
         - image: traefik:1.7-alpine
-          name: traefik-ingress-loadbalancer
+          name: traefik-ingress-lb
           ports:
             - name: http
               containerPort: 80
@@ -63,7 +63,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    k8s-app: traefik-ingress-loadbalancer
+    k8s-app: traefik-ingress-lb
   ports:
     - protocol: TCP
       port: 80
