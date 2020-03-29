@@ -1,3 +1,11 @@
+###  ^M KARAKTERİNİ VIM İLE TEMİZLEME
+```sh
+:%s/^M//g
+:%s/\^M//
+:%s/\r//g 
+:%s/\r/\r/g
+sed -i -e 's/\r//g'
+```
 
 ### CERTBOT İLE SERTİFİKA OLUŞTURMA CF
 ```sh
