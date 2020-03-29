@@ -1,4 +1,12 @@
-Sitenin hayatta olup olmadığını kontrol etmenin en basit yolu için aşağıdaki yöntemi kullanabilirsiniz:
+
+###  LİSTELEME
+Symlink dizinlerindeki dosyalar da dahil olmak üzere bir dizindeki tüm dosyaları özyinelemeli olarak listeleme
+```sh
+ls -LR
+find -follow
+find -L
+tree -l
+```
 
 ###  VIM NGINX RENKLENDİRME
 ```sh
