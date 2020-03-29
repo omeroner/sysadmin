@@ -286,3 +286,7 @@ user8 tinOKCsHaD3NYkO
 user9 mNfTtjp7dL6aUPw
 user10 UnZulfCEz6yFhLJ
 ```
+###  UZANTI DEĞİŞTİRME
+```sh
+for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
+```
