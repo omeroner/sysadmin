@@ -1,3 +1,5 @@
+Sitenin hayatta olup olmadığını kontrol etmenin en basit yolu için aşağıdaki yöntemi kullanabilirsiniz:
+
 ###  VIM NGINX RENKLENDİRME
 ```sh
 #!/bin/bash
@@ -159,6 +161,14 @@ Html'deki http(s) tüm linklerin listelenmesi ve curl ile sorgulanması
 ```sh
 for i in `curl -s -L cnn.com |egrep --only-matching "http(s?):\/\/[^ \"\(\)\<\>]*" | uniq` ; do curl -s -I $i 2>/dev/null |head -n 1 | cut -d$' ' -f2; done
 ```
+Sitenin hayatta olup olmadığını kontrol etmenin en basit yolu için aşağıdaki yöntemi kullanabilirsiniz
+```sh
+curl -Is http://www.google.com | head -n 1
+curl www.google.com -s -f -o /dev/null || echo "Website down." | mail -s "Website is down" admin@omeroner.com 
+
+```
+
+
 
 
 ### MOUNT
