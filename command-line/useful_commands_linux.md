@@ -175,9 +175,10 @@ curl -Is http://www.google.com | head -n 1
 curl www.google.com -s -f -o /dev/null || echo "Website down." | mail -s "Website is down" admin@omeroner.com 
 
 ```
-
-
-
+Toplu dosya bul ve taşı
+```sh
+find . -iname "*imren*.mp3" -exec mv {} /Volumes/external/1-MUSIC/cengiz imren/   \;
+```
 
 ### MOUNT
 Qnap vol mount
@@ -203,6 +204,25 @@ echo "Detailed Inode usage for: $(pwd)" ; for d in `find -maxdepth 1 -type d |cu
 Detailed Inode usage for: /home/2daygeek
 ```
 
+Toplu dosya bul ve taşı
+```sh
+find . -iname "*imren*.mp3" -exec mv {} /Volumes/external/1-MUSIC/cengiz imren/   \;
+```
+Zero size files
+```sh
+find ./ -type f -size 0
+find ./ -type f -empty
+find ./ -type f -size 0 -exec rm -f {} \;
+find ./ -type f -size 0 | xargs rm -f
+find ./ -type f -size 0 -delete
+```
+Empty directories
+```sh
+find ./ -type d -empty
+find ./ -depth -type d -empty -exec rmdir {} \;
+find ./ -type d -empty -delete
+```
+
 ### RSYNC
 1 sn arayla sürekli rsync
 ```sh
@@ -223,4 +243,46 @@ curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.p
 ```sh
 use admin
 db.createUser({ user:"USERNAME", pwd: "PASSWORD", roles: [{role: "userAdminAnyDatabase", db: "admin"}] })
+```
+
+### RANDOM PASSWORD OLUŞTURMA
+```sh
+DEBIAN/UBUNTU
+# apt-get install -y pwgen
+FEDORA
+# dnf install -y pwgen
+CENTOS
+# yum install -y pwgen
+
+pwgen
+pwgen -s
+pwgen -s -1
+pwgen -s -1 14
+pwgen -s 15 2
+pwgen -s 10 5 -1 -y
+pwgen -s 80 -1 -v -c -0
+
+$ cat users-list.txt 
+user1
+user2
+user3
+user4
+user5
+user6
+user7
+user8
+user9
+user10
+
+for i in $( cat users-list.txt ); do pwgen -s -1 15 1 | sed "s/^/$i /"; done
+user1 tRVd0cbtviFN9oj
+user2 QJQeELnhxqeg3v3
+user3 u11HAOYWlSyJDPv
+user4 BalUhUbmejS5HHW
+user5 PzTz7UV3Kp4yeBb
+user6 QVa8ZYkuM3wJI77
+user7 dFF3GwAauBIPvc9
+user8 tinOKCsHaD3NYkO
+user9 mNfTtjp7dL6aUPw
+user10 UnZulfCEz6yFhLJ
 ```
