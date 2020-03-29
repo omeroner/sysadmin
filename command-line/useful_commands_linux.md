@@ -196,6 +196,13 @@ Sıkıştırılmamış dosyaları bulup sıkıştırma
 find .  -type f ! -name "*.gz" -exec gzip -v {} \;
 ```
 
+```sh
+find . | wc -l
+find . -printf "%h\n" | cut -d/ -f-2 | sort | uniq -c | sort -rn
+echo "Detailed Inode usage for: $(pwd)" ; for d in `find -maxdepth 1 -type d |cut -d\/ -f2 |grep -xv . |sort`; do c=$(find $d |wc -l) ; printf "$c\t\t- $d\n" ; done ; printf "Total: \t\t$(find $(pwd) | wc -l)\n"
+Detailed Inode usage for: /home/2daygeek
+```
+
 ### RSYNC
 1 sn arayla sürekli rsync
 ```sh
