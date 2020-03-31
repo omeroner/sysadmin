@@ -1,0 +1,13 @@
+# Connection açıp belirli bir süre request açmayan bağlantıları kesiyor.
+when CLIENT_ACCEPTED {
+set rtimer 0
+  after 1000 {
+    if { not $rtimer } {
+      drop
+    } 
+  }
+} 
+when HTTP_REQUEST {
+
+  set rtimer 1
+}
