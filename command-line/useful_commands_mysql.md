@@ -12,6 +12,20 @@ tshark -i eth4     -aduration:60     -d tcp.port==3306,mysql     -T fields     -
 tcpdump -i eth1 -s 1500 -w - -l port 3306 | strings | grep 'access denied'
 tcpdump -s 1500 -w tcp.out port 3306
 strings tcp.out
+
+tshark -i eth0 -aduration:60 -d tcp.port==3306,mysql -T fields -e mysql.query 'port 3306'
+
+1. Capturing the MySQL traffic
+
+tcpdump -i eth0 port 3306 -s 1500 -w tcpdump.out
+
+2. Extracting the queries
+
+tshark -r tcpdump.out -d tcp.port==3306,mysql -T fields -e mysql.query > query_log.out
+
+remove the blank lines and redundant SQL:
+
+cat query_log.out | grep -v "^$" | grep -v "^commit" | grep -v "^SET autocommit" | grep -v "^rollback" > query_log_no_blank.out
 ```
 
 ### Mysql sunucuya gelen queryleri sniff edip, sql proxy kullanmadan yakalayıp, okunabilir format'ta printleye bilirsiniz. Bunun için aşağıdaki işlemler yeterli.
@@ -34,6 +48,10 @@ while(<>) { chomp; next if /^[^ ]+[ ]*$/;
 }'
 ```
 
+### Mysql Server ip bağlantıları bağlantı sayısına göre sıralama 
+```sh
+mysql -e "show processlist" | awk {'print $3'} | tr -t ':[0-9]' '\t' | awk {'print $1'} | sort -n | uniq -c | sort -r -n | grep -v "Host\|localhost\|user"
+```
 
 ### Replikasyon skip error
 ```sh
@@ -45,6 +63,11 @@ stop slave; set global sql_slave_skip_counter = 1; start slave;
 tail -fn 1000 /var/lib/mysql/mysqld-slow.log |grep -B20 -A20 --colour "13:"|grep -A20 -b20 --colour "Query_time"
 watch -n 1 "echo "show full processlist" | mysql | grep -vi "sleep" | more"
 watch -n 1 "echo "show full processlist" | mysql | grep -vi "sleep" | wc -l"
+
+cat /var/log/mysql/mysql-slow.log | fgrep Query_time | sed 's/Lock_.*//' | sort | uniq -c | sort
+
+cat /tmp/mysqld-query.log | grep select | sed 's/.*Query//' | sed 's/[0-9]+//g' | sed 's/"[^"]*"/""/g' | sed "s/'[^']*'/''/g" |sort | uniq -c | sort | egrep -v " [1-9][0-9]? "
+
 ```
 
 ### Mysql Error Log anlamlı bir şekilde renklendirip ekrana basar.
@@ -250,9 +273,14 @@ WHERE table_schema = "schemaname"
   ```
 ### Kullanıcı Oluşturma
 ```sh
-CREATE USER 'operasyon'@'%' IDENTIFIED BY PASSWORD 'tgbn852';
-GRANT SELECT ON *.* TO 'operasyon'@'%';
-flush privileges;
+CREATE USER 'user'@'%' IDENTIFIED BY PASSWORD 'password';
+GRANT SELECT ON *.* TO 'user'@'%'; 
+OR 
+GRANT ALL PRIVILEGES ON dbname. * TO 'user’@’localhost';
+OR
+GRANT ALL PRIVILEGES ON * . * TO 'user'@'localhost';
+FLUSH PRIVILEGES;
+
 ```
 
 ### Percona Toolkit
@@ -262,7 +290,18 @@ pt-table-checksum --host=10.10.140.27 --user=percona --password=reload --set-var
 time pt-table-sync --sync-to-master h=10.10.140.27,u=percona,p=reload --databases=community --table=messages --no-bin-log --no-check-slave --print > FILE 2>&1
 ```
 
+### Mysql Dump Script
+```sh
+#!/bin/bash
 
+MYSQLDUMP="$(which mysqldump)"
+while read i
+do
+$MYSQLDUMP --routines --single-transaction uzmantv $i > /mnt/uzmantvslavedb/$i.sql
+done < /tmp/table
+
+done
+```
   
   Faydalı Linkler:
   http://www.debianhelp.co.uk/mysqltips.htm
