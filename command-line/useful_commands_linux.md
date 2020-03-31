@@ -290,3 +290,34 @@ user10 UnZulfCEz6yFhLJ
 ```sh
 for x in *.JPG; do mv "$x" "${x%.JPG}.jpg"; done
 ```
+
+###  LINUX ACL
+```sh
+setfacl -R -m u:lezzetliftp:w /var/www/html/
+getfacl /var/www/html/
+setfacl -R -m u:lezzetliftp:rwx /var/www/html/
+getfacl /var/www/html/
+useradd -M -d /var/www/html/ -s /sbin/nologin lezzetliftp
+usermod -a -G apache lezzetliftp
+useradd -M -d /var/www/html/ -s /sbin/nologin gezioftp
+usermod -a -G apache gezioftp
+setfacl -R -m u:gezioftp:rwx /var/www/html/
+setfacl -R -m u:lezzetliftp:rwx /var/www/html/
+
+setfacl -R -m u:lezzetliftp:w /var/www/html/
+getfacl /var/www/html/
+setfacl -R -m u:lezzetliftp:rwx /var/www/html/
+getfacl /var/www/html/
+
+izinleri geri al
+
+setfacl -R -b /var/www/html/
+
+
+
+useradd -M -d /var/www/html/ -s /sbin/nologin wpftp
+usermod -a -G ngnix wpftp
+getfacl /var/www/html/
+setfacl -R -m u:wpftp:rwx /var/www/html/
+getfacl /var/www/html/
+```
