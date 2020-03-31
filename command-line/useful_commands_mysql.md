@@ -109,6 +109,16 @@ GRANT SELECT ON *.* TO 'operasyon'@'%';
 flush privileges;
 ```
 
+### Percona Toolkit
+```sh
+pt-table-checksum --host=10.10.140.27 --user=percona --password=reload --set-vars innodb_lock_wait_timeout=50 --no-check-binlog-format --nocheck-replication-filters --databases=community --tables=messages
+
+time pt-table-sync --sync-to-master h=10.10.140.27,u=percona,p=reload --databases=community --table=messages --no-bin-log --no-check-slave --print > FILE 2>&1
+```
+
+
   
   Faydalı Linkler:
   http://www.debianhelp.co.uk/mysqltips.htm
+  https://www.percona.com/doc/percona-toolkit/3.0/index.html
+  https://github.com/vlad-github/mysql-health-check
