@@ -66,3 +66,49 @@ mysql> show master logs;
 
 mysql>
 ```
+
+### InnoDB DATA ve INDEX Size Hesaplama
+```sh
+SELECT SUM(data_length)/POWER(1024,2) InnoDBData,
+SUM(index_length)/POWER(1024,2) InnoDBIndexes
+FROM information_schema.tables WHERE engine='InnoDB';
+```
+### MyISAM ve InnoDB'de ne kadar gerçek veri depoladığı
+```sh
+SELECT IFNULL(B.engine,'Total') "Storage Engine",
+CONCAT(LPAD(REPLACE(FORMAT(B.DSize/POWER(1024,pw),3),',',''),17,' '),' ',
+SUBSTR(' KMGTP',pw+1,1),'B') "Data Size", CONCAT(LPAD(REPLACE(
+FORMAT(B.ISize/POWER(1024,pw),3),',',''),17,' '),' ',
+SUBSTR(' KMGTP',pw+1,1),'B') "Index Size", CONCAT(LPAD(REPLACE(
+FORMAT(B.TSize/POWER(1024,pw),3),',',''),17,' '),' ',
+SUBSTR(' KMGTP',pw+1,1),'B') "Table Size"FROM (SELECT ENGINE,SUM(data_length) DSize,SUM(index_length) ISize,
+SUM(data_length+index_length) TSize FROM information_schema.tables
+WHERE table_schema NOT IN ('mysql','information_schema','performance_schema')AND ENGINE IS NOT NULL GROUP BY ENGINE WITH ROLLUP) B,(SELECT 3 pw) A ORDER BY TSize;
+```
+### Veritabani karakter lerini gormek icin
+```sh
+For Schemas:
+SELECT default_character_set_name FROM information_schema.SCHEMATA S
+WHERE schema_name = "schemaname";
+For Tables:
+SELECT CCSA.character_set_name FROM information_schema.`TABLES` T,
+       information_schema.`COLLATION_CHARACTER_SET_APPLICABILITY` CCSA
+WHERE CCSA.collation_name = T.table_collation
+  AND T.table_schema = "schemaname"
+  AND T.table_name = "tablename";
+For Columns:
+SELECT character_set_name FROM information_schema.`COLUMNS` C
+WHERE table_schema = "schemaname"
+  AND table_name = "tablename"
+  AND column_name = "columnname";
+  ```
+### Kullanıcı Oluşturma
+```sh
+CREATE USER 'operasyon'@'%' IDENTIFIED BY PASSWORD 'tgbn852';
+GRANT SELECT ON *.* TO 'operasyon'@'%';
+flush privileges;
+```
+
+  
+  Faydalı Linkler:
+  http://www.debianhelp.co.uk/mysqltips.htm
