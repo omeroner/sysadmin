@@ -90,6 +90,11 @@ yükseklik en boy oranını koruyarak uygun şekilde ölçeklenir
 ```sh
 mogrify -resize 960x528! *.png
 ```
+```sh
+find . -type f -iname "*.png" -print0 | xargs -I {} -0 optipng -o5 -quiet -keep -preserve -log optipng.log "{}"
+find . -type f -name "*.jpg" -o -name "*.JPG" | xargs jpegoptim -f --strip-all
+find . -type f -name "*.png" -o -name "*.PNG" | xargs optipng -nb -nc
+```
 
 ### TOP / PS
 io yapan process'leri bulmak
