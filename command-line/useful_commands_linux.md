@@ -326,3 +326,8 @@ getfacl /var/www/html/
 setfacl -R -m u:wpftp:rwx /var/www/html/
 getfacl /var/www/html/
 ```
+
+###  BOŞLUK KARAKTERİ SİL FİLE'DA
+```sh
+find .  -type f -name "* *" -exec bash -c 'cp "$0" "${0// /_}"' {} \;
+```
