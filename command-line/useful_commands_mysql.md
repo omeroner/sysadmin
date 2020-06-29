@@ -324,7 +324,23 @@ done < /tmp/table
 
 done
 ```
-  
+```sh
+sudo mysqldump  --login-path=root \
+    --databases editorbreakcontrol \
+    --master-data=2  \
+    --single-transaction \
+    --order-by-primary \
+    -r editorbreakcontrol.sql
+
+
+sudo mysqldump  --login-path=root \
+    --databases searchV2 \
+    --master-data=2  \
+    --single-transaction \
+    --order-by-primary \
+    -r /static_image/searchV2.sql
+ ``` 
+ 
   Faydalı Linkler:
   http://www.debianhelp.co.uk/mysqltips.htm
   https://www.percona.com/doc/percona-toolkit/3.0/index.html
