@@ -331,3 +331,7 @@ getfacl /var/www/html/
 ```sh
 find .  -type f -name "* *" -exec bash -c 'cp "$0" "${0// /_}"' {} \;
 ```
+###  JENKİNS BACKUP
+```sh
+java -jar jenkins-cli.jar -s https://jenkins.lingapos.com/  -auth omeroner:Qazx.123! get-job "prod-dealer" > Dealer_Staging.xml
+```
