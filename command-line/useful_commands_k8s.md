@@ -47,3 +47,6 @@ kubectl get pods --all-namespaces --field-selector 'status.phase==Failed' -o jso
 ```sh
 kubectl get pod -n studytonight | grep Evicted | awk '{print $1}' | xargs kubectl delete pod -n studytonight
 ```
+```sh
+while true; do kubectl delete -n default pod redis-master-0; sleep 4; done
+```
