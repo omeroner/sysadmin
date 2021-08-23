@@ -54,3 +54,12 @@ while true; do kubectl delete -n default pod redis-master-0; sleep 4; done
 kubectl cp default/schedule-api-deployment-6fb5f74c77-rmt2l:/go/src/pts-api/public/profiles /home/admin/
 scp -r -i /Users/omeroner/Documents/Lingaros/pem-files/stagelinga.pem ubuntu@52.8.19.27:/home/ubuntu/pvc  /Users/omeroner
 ```
+
+```sh
+1- Staging cluster'da 3. node da kullanılmıyordu. 
+
+Taints:  NodeWithImpairedVolumes=true:NoSchedule vardı
+
+admin@ip-172-20-37-80:~$ kubectl taint nodes ip-172-20-58-49.us-west-1.compute.internal NodeWithImpairedVolumes:NoSchedule-
+node "ip-172-20-58-49.us-west-1.compute.internal" untainted
+```
