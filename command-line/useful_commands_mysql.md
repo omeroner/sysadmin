@@ -304,7 +304,10 @@ GRANT ALL PRIVILEGES ON * . * TO 'user'@'localhost';
 FLUSH PRIVILEGES;
 
 SET GLOBAL validate_password_policy = 0;
-GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'%' IDENTIFIED BY 'uhbv';
+GRANT ALL PRIVILEGES ON *.* TO 'dbadmin'@'%' IDENTIFIED BY 'password';
+
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON database.* TO 'user'@'localhost';
 
 ```
 
