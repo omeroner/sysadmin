@@ -1,3 +1,5 @@
+### Total Connection Count
+```sh
 db.currentOp(true).inprog.reduce(
   (accumulator, connection) => {
     ipaddress = connection.client ? connection.client.split(":")[0] : "Internal";
@@ -7,3 +9,4 @@ db.currentOp(true).inprog.reduce(
   },
   { TOTAL_CONNECTION_COUNT: 0 }
 )
+```
