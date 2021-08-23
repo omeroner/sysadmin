@@ -50,3 +50,7 @@ kubectl get pod -n studytonight | grep Evicted | awk '{print $1}' | xargs kubect
 ```sh
 while true; do kubectl delete -n default pod redis-master-0; sleep 4; done
 ```
+```sh
+kubectl cp default/schedule-api-deployment-6fb5f74c77-rmt2l:/go/src/pts-api/public/profiles /home/admin/
+scp -r -i /Users/omeroner/Documents/Lingaros/pem-files/stagelinga.pem ubuntu@52.8.19.27:/home/ubuntu/pvc  /Users/omeroner
+```
