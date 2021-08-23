@@ -1,0 +1,44 @@
+#!/bin/bash
+
+cd $WORKSPACE
+
+#UPDATE_VERSION ###############
+if [ "$UPDATE_VERSION" == 'NONE' ]
+then
+
+  VERSION=$(git rev-parse HEAD | cut -c1-10)
+else
+  git checkout $UPDATE_VERSION
+  VERSION=$UPDATE_VERSION
+fi
+
+
+#ECR LOGIN ###################
+/usr/local/bin/aws ecr get-login-password | sudo docker login --username AWS --password-stdin $STAGING_ECR_URL
+
+#IMAGE TAGING ################
+TAG="${JOB_NAME}.${GIT_BRANCH}.${VERSION}"
+TAG=${TAG/\//.}
+
+
+#YAML DEFINE #################
+sed 's|__VERSION__|'$TAG'|;s|__REPO__|'$STAGING_ECR_REPO'|;' $WORKSPACE/k8s/stagingtrv2.yaml > $WORKSPACE/k8s/staging_version.yaml
+
+grep -rl "__VERSION__" . | xargs sed -i "s/__VERSION__/${TAG}/g"
+
+
+
+#DOCKER BUILD ################
+docker build -t $STAGING_ECR_REPO:$TAG . --build-arg env=staging
+
+
+IMAGE=$(docker images | grep "$TAG" | awk {'print $3'})
+
+if [ -z "$IMAGE" ]
+then
+  echo "Docker Build Error..."
+    exit 1
+fi
+
+docker push $STAGING_ECR_REPO:$TAG
+docker rmi $(docker images | grep "$TAG" | awk {'print $3'})
