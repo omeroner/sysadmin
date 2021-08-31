@@ -102,7 +102,7 @@ io yapan process'leri bulmak
 while true; do date; ps auxf | awk '{if($8=="D") print $0;}'; sleep 1; done
 ```
 
-### CRONTAP
+### CRONTAB
 Sn'lik cron
 ```sh
 while true; do  /usr/local/php/bin/php /var/www/html/apps.oyun.mynet.com/batch/riffi.php ; sleep 4 ; done
