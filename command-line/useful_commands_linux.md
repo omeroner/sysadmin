@@ -335,3 +335,6 @@ find .  -type f -name "* *" -exec bash -c 'cp "$0" "${0// /_}"' {} \;
 ```sh
 java -jar jenkins-cli.jar -s https://jenkins.lingapos.com/  -auth omeroner:Qazx.123! get-job "prod-dealer" > Dealer_Staging.xml
 ```
+
+###  SED İLE URL DEĞİŞTİRME
+grep -RiIl  "https://www.domain.com/download-linga-app/" | xargs sed -i 's/https:\/\/www.domain.com\/download-linga-app/https:\/\/download-app.s3.us-west-2.amazonaws.com/g'
