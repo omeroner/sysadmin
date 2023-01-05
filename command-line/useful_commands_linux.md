@@ -337,4 +337,11 @@ java -jar jenkins-cli.jar -s https://jenkins.lingapos.com/  -auth omeroner:Qazx.
 ```
 
 ###  SED İLE URL DEĞİŞTİRME
+```sh
 grep -RiIl  "https://www.domain.com/download-linga-app/" | xargs sed -i 's/https:\/\/www.domain.com\/download-linga-app/https:\/\/download-app.s3.us-west-2.amazonaws.com/g'
+```
+
+###  BELLI EXTENSION HARIÇ DOSYA BULMA
+```sh
+find . ! -name "*.jpg" ! -name "*.JPG" ! -name "*.jpeg"  -type f
+```
