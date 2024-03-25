@@ -345,8 +345,15 @@ sudo mysqldump  --login-path=root \
     --single-transaction \
     --order-by-primary \
     -r /static_image/searchV2.sql
- ``` 
- 
+ ```
+
+
+```sh
+Calculating number of Connection to MySQL
+
+mysql -u root -p -e"show processlist;"|awk '{print $3}'|awk -F":" '{print $1}'|sort|uniq -c
+ ```
+
   Faydalı Linkler:
   http://www.debianhelp.co.uk/mysqltips.htm
   https://www.percona.com/doc/percona-toolkit/3.0/index.html
